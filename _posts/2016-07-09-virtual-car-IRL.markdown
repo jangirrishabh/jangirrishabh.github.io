@@ -273,6 +273,8 @@ if __name__ == '__main__':
     # ^feature expectations for the follow Red obstacles behavior
     expertPolicyBrownFE = [5.2210e+00,  5.6980e+00,  7.7984e+00,  4.8440e-01, 2.0885e-04, 9.2215e+00, 2.9386e-01 , 4.8498e-17]
     # ^feature expectations for the "follow Brown obstacles" behavior
+    expertPolicyBumpingFE = [  7.5313e+00, 8.2716e+00, 8.0021e+00, 2.5849e-03 ,2.4300e+01 ,9.5962e+01 ,1.5814e+01 ,1.5538e+03]
+    # ^feature expectations for the "nasty bumping" behavior
     epsilon = 0.1
     irlearner = irlAgent(randomPolicyFE, expertPolicyRedFE, epsilon, NUM_STATES, FRAMES, BEHAVIOR)
     print (irlearner.optimalWeightFinder())
