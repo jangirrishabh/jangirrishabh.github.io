@@ -82,7 +82,7 @@ In general, yes, they are the same thing, which means to learn from demonstratio
 
 ### Important modifications over the RL algorithm in Matt's code
 
->Note, that the RL algorithm is completely adopted from [this](https://medium.com/@harvitronix/using-reinforcement-learning in-python-to-teach-a-virtual-car-to-avoid-obstacles-6e782cc7d4c6#.5ylxaemzk) post by Matt Harvey with minor changes, thus it makes perfect sense to talk about the changes that I have made, also even if the reader is comfortable with RL, I highly recommend a glance over that post in order to get an understanding of how the reinforcement learning is taking place.
+>Note, that the RL algorithm is completely adopted from [this](https://medium.com/@harvitronix/using-reinforcement-learning-in-python-to-teach-a-virtual-car-to-avoid-obstacles-6e782cc7d4c6#.qvmmh4afn) post by Matt Harvey with minor changes, thus it makes perfect sense to talk about the changes that I have made, also even if the reader is comfortable with RL, I highly recommend a glance over that post in order to get an understanding of how the reinforcement learning is taking place.
 
 The environment is significantly changed, with the agent getting abilites to not only sense the distance from the 3 sensors but also sense the color of the obstacles, enabling it to dishtinguish between the obstacles. Also, the agent is now smaller smaller in size and its sensing dots are now closer in order to get more resolution and better performance. Obstacles had to be made static for now, in order to simplify the process of testing the IRL algorithm, this may very well lead to overfitting of data, but I am not concerned about that at the moment. As discussed above the observation set or the state of the agent has been increased from 3 to 8, with the inclusion of the *crash* feature in the agent's state. The reward structure is completely changed, the reward is now a weighted linear combination of these 8 features, the agent no more receives a -500 reward on bumping into obstacles, rather, the feature value for *bumping* is +1 and not bumping is 0 and it is on the algorithm to decide what weight should be assigned to this feature based on the expert behavior.
 
@@ -353,7 +353,7 @@ If you really want to get into IRL, I would recommend that you actually try to t
 
 
 ### Resources and credits - 
-1. Thank you Matt Harvey for the game and the RL framework, basically for the father blog to this blog - [Using RL to teach a virtual car to avoid obstacles](https://medium.com/@harvitronix/using-reinforcement-learning-in-python-to-teach-a-virtual-car-to-avoid-obstacles-6e782cc7d4c6#.5ylxaemzk)
+1. Thank you Matt Harvey for the game and the RL framework, basically for the father blog to this blog - [Using RL to teach a virtual car to avoid obstacles](https://medium.com/@harvitronix/using-reinforcement-learning-in-python-to-teach-a-virtual-car-to-avoid-obstacles-6e782cc7d4c6#.qvmmh4afn)
 2. Andrew Ng and Stuart Russell, 2000 - [Algorithms for Inverse Reinforcement Learning](http://ai.stanford.edu/~ang/papers/icml00-irl.pdf)
 3. Pieter Abbeel and Andrew Ng, 2004 - [Apprenticeship Learning via Inverse Reinforcement Learning](http://ai.stanford.edu/~ang/papers/icml04-apprentice.pdf)
 

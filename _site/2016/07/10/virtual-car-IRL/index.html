@@ -176,7 +176,7 @@ basically the agent tries to choose its actions in such a way that the rewards t
 <h3 id="important-modifications-over-the-rl-algorithm-in-matts-code">Important modifications over the RL algorithm in Matt’s code</h3>
 
 <blockquote>
-  <p>Note, that the RL algorithm is completely adopted from <a href="https://medium.com/@harvitronix/using-reinforcement-learning in-python-to-teach-a-virtual-car-to-avoid-obstacles-6e782cc7d4c6#.5ylxaemzk">this</a> post by Matt Harvey with minor changes, thus it makes perfect sense to talk about the changes that I have made, also even if the reader is comfortable with RL, I highly recommend a glance over that post in order to get an understanding of how the reinforcement learning is taking place.</p>
+  <p>Note, that the RL algorithm is completely adopted from <a href="https://medium.com/@harvitronix/using-reinforcement-learning-in-python-to-teach-a-virtual-car-to-avoid-obstacles-6e782cc7d4c6#.qvmmh4afn">this</a> post by Matt Harvey with minor changes, thus it makes perfect sense to talk about the changes that I have made, also even if the reader is comfortable with RL, I highly recommend a glance over that post in order to get an understanding of how the reinforcement learning is taking place.</p>
 </blockquote>
 
 <p>The environment is significantly changed, with the agent getting abilites to not only sense the distance from the 3 sensors but also sense the color of the obstacles, enabling it to dishtinguish between the obstacles. Also, the agent is now smaller smaller in size and its sensing dots are now closer in order to get more resolution and better performance. Obstacles had to be made static for now, in order to simplify the process of testing the IRL algorithm, this may very well lead to overfitting of data, but I am not concerned about that at the moment. As discussed above the observation set or the state of the agent has been increased from 3 to 8, with the inclusion of the <em>crash</em> feature in the agent’s state. The reward structure is completely changed, the reward is now a weighted linear combination of these 8 features, the agent no more receives a -500 reward on bumping into obstacles, rather, the feature value for <em>bumping</em> is +1 and not bumping is 0 and it is on the algorithm to decide what weight should be assigned to this feature based on the expert behavior.</p>
@@ -525,7 +525,7 @@ After the algorithm terminates, you will obtain a list of weights in ‘weights-
 
 <h3 id="resources-and-credits--">Resources and credits -</h3>
 <ol>
-  <li>Thank you Matt Harvey for the game and the RL framework, basically for the father blog to this blog - <a href="https://medium.com/@harvitronix/using-reinforcement-learning-in-python-to-teach-a-virtual-car-to-avoid-obstacles-6e782cc7d4c6#.5ylxaemzk">Using RL to teach a virtual car to avoid obstacles</a></li>
+  <li>Thank you Matt Harvey for the game and the RL framework, basically for the father blog to this blog - <a href="https://medium.com/@harvitronix/using-reinforcement-learning-in-python-to-teach-a-virtual-car-to-avoid-obstacles-6e782cc7d4c6#.qvmmh4afn">Using RL to teach a virtual car to avoid obstacles</a></li>
   <li>Andrew Ng and Stuart Russell, 2000 - <a href="http://ai.stanford.edu/~ang/papers/icml00-irl.pdf">Algorithms for Inverse Reinforcement Learning</a></li>
   <li>Pieter Abbeel and Andrew Ng, 2004 - <a href="http://ai.stanford.edu/~ang/papers/icml04-apprentice.pdf">Apprenticeship Learning via Inverse Reinforcement Learning</a></li>
 </ol>
