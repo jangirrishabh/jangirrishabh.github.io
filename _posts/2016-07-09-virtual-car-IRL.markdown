@@ -2,7 +2,7 @@
 layout: post
 comments: true
 title:  "Apprenticeship learning using Inverse Reinforcement Learning"
-excerpt: "Learning distinct behaviors from expert demonstrations by estimating the underlying reward functions, the setting used here is that of a simple agent in a 2D world with differently coloured obstacles"
+excerpt: "Learning distinct behaviors from expert demonstrations by estimating the underlying reward functions, the setting used here is that of a simple agent in a 2D world with differently coloured obstacles."
 date:   2016-07-09 22:00:00
 mathjax: true
 ---

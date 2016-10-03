@@ -1,0 +1,36 @@
+---
+layout: page
+comments: true
+heading:  "Autonomous Indoor Navigation Robot"
+permalink: /navigation/
+mathjax: true
+---
+
+<p style="text-align: justify; ">We, a bunch of undergraduate students intrigued by the ideas of artificial intelligence and intelligent robotics, led by our senior Tanmay Shankar decided to build a robot capable of autonomous indoor navigation. He introduced us to a powerful tool, the Robot operating system (ROS). Getting our hands dirty with ROS opened up a whole new horizon in robotics for us, we could now easily implement our ideas. The learning curve was steep I must say, but it was for good. Finally we are ready with the first ever autonomous indoor navigating robot in IIT Guwahati. FAIR's design was inspired by the famous Turtle Bot by Willow Garage. FAIR was fabricated in the Robotics Club, IIT Guwahati.</p>
+<div class="imgcap">
+<center><img src="/assets/research/FAIR.JPG" width="60%"></center>
+<div class="thecap" >The chassis in its initial stages, we used a stereo camera at first and then shifted to a Kinect.</div>
+</div>
+
+<div class="imgcap">
+<center><img src="/assets/research/fair5.png" width="60%"></center>
+<div class="thecap" >A flow diagram showing various parts of our system.</div>
+</div>
+
+### <u>Mapping</u>
+<p style="text-align: justify; ">A dense 3D map is generated using the rtabmap_ros package with the point cloud data available from a Microsoft Kinect. The rtab_map node extracts SIFT features from the input data and applies RANSAC algorithm to stitch the image frames together. Initially we were using a stereo camera, but a lot of computation was required for getting the depth cloud from the images, thus we shifted to a kinect.To create the map the user has to tele-operate FAIR, but once the map is created, FAIR can localize itself in the map. </p>
+
+<p style="text-align: justify; ">The 3D map is then used to generate something called a grid map or a cost map, a cost map basically tells us the cost to reach a certain place. Obstacles have an infinte cost, which means that  would be impossible to reach on the same place as the obstacle, the obstacles in the adjacent cost map are marked in black, and the area in grey has very low cost of reaching and are available for navigation, that is these places are accessible by the robot. The position of the robot or  the odometry information is also published by the rtab_map package which is then coupled with the wheel odometry using an Extended Kalman Filter.</p>
+
+<div class="imgcap">
+<center><img src="/assets/research/fair7.png" width="70%"></center>
+<div class="thecap" >A Map build by our system in place.</div>
+</div>
+
+### <u>Path Planning and Navigation</u>
+<p style="text-align: justify; ">After we get the areas that are accessible by the robot in terms of the cost function, we can command our robot to navigate to any accessible position in the map. The goal location is assigned in rviz, once we assign a goal location, the move_base package calculates an optimal path that should be followed to reach to the goal location in minimun time, it uses Djikstra's algorithm for path planning and generates velocity commands that FAIR move to the goal location.</p>
+
+<div class="imgcap">
+<center><img src="/assets/research/fairPoster.png" width="100%"></center>
+<div class="thecap" >The poster as presented in TechExpo'15.</div>
+</div>
