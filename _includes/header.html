@@ -3,7 +3,7 @@
   <div class="wrap">
 
     <div style="float:left; margin-top:10px; margin-right:10px;">
-    <a href="{{ "/feed.xml" | prepend: site.baseurl }}">
+    <a>
       <img src="/assets/1.png" width="70">
     </a>
     </div>
@@ -23,9 +23,14 @@
         </svg>
       </a>
       <div class="trigger">
-        {% for page in site.pages %}
+        <!--{% for page in site.pages %}
           {% if page.title %}<a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>{% endif %}
-        {% endfor %}
+        {% endfor %} -->
+        <a class="page-link" href="/">About</a>
+        <a class="page-link" href="/research/">Research</a>
+        <a class="page-link" href="/robots/">DIY Robots</a>
+        <a class="page-link" href="/assets/RISHABH_JANGIR_CV.pdf">CV</a>
+        <a class="page-link" href="/Blog/">Blog</a>
       </div>
     </nav>
   </div>
