@@ -6,7 +6,7 @@ permalink: /robots/
 comments: true
 ---
 
-> A large part of my day is about designing and fabricating robots, I am interested in all things mechanical and hands on. Whenever I see someone holding a screw-driver or fiddling with any electronic component, I make sure I spent the next few hours brainstorming and reverse engineering with them. Have a look at my creations.
+> A large part of my day is about designing and fabricating robots, I am interested in all things mechanical and hands on. Whenever I see someone holding a screw-driver or fiddling with any electronic component, I make sure I spent the next few hours brainstorming and reverse engineering with them. I have been a part of numerous Hackathons, MIT REDx 2015 (national level), Let's Make '14, Kickstarter'16 (college level). Have a look at my creations.
 
 <div class="imgcap">
 <div align="centre">
