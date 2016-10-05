@@ -13,6 +13,8 @@
 
     <div class="footer-col-2 column">
       <ul>
+        {% if site.email %}<li><span style="display:inline-block; width: 30px;"></span>{{ site.email }}
+        </li>{% endif %}
         {% if site.github_username %}<li><span style="display:inline-block; width: 50px;"></span>
           <a href="https://github.com/{{ site.github_username }}">
             <span class="icon github">
