@@ -1,5 +1,5 @@
 ---
-layout: pageType2
+layout: page
 title: DIY Robots
 heading: DIY Robot Hacks
 permalink: /robots/

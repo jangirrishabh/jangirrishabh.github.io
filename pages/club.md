@@ -7,7 +7,7 @@ permalink: /club/
 
 <div class="imgcap2">
 <center><img src="/assets/home/club12.jpg" width="100%"></center>
-<div class="thecap" ><i>If you want to go fast, go alone. But if you want to go far, go together.</i></div>
+<div class="thecap" ><i>"If you want to go fast, go alone. But if you want to go far, go together."</i></div>
 </div>
 
 <p style="text-align: justify; ">One of the best experiences in my undergraduate college life has been my involvement with the Robotics Club, IIT Guwahati. Being a very active member I headed the chair as the <b>Secretary, Robotics Club</b> 2015-16. Its been an awesome journey so far, we were crowned the "Best Club Gymkhana'15" for our work. We work on a multitude of projects throughout the year, sharing ideas, discussing difficulties, implementing them and at the end of the year showcasing them to the college community.</p>
