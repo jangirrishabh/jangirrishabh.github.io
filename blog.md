@@ -1,7 +1,7 @@
 ---
 layout: pageType3
 title: Blog
-permalink: /Blog/
+permalink: /theBlog/
 comments: true
 ---
 
