@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Breaking Linear Classifiers on ImageNet</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Excited by electrons.">
+    <link rel="canonical" href="http://jangirrishabh.github.io/2015/03/31/breaking-convnets/">
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Rishabh Jangir posts" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-3698471-23', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <div style="float:left; margin-top:10px; margin-right:10px;">
+    <a href="/feed.xml">
+      <img src="/assets/redx.jpg" width="40">
+    </a>
+    </div>
+
+    <a class="site-title" href="/">Rishabh Jangir</a>
+    
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+          <a class="page-link" href="/about/">About</a>
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <div class="post">
+
+  <header class="post-header">
+    <h1>Breaking Linear Classifiers on ImageNet</h1>
+    <p class="meta">Mar 31, 2015</p>
+  </header>
+
+  <article class="post-content">
+  <p>You’ve probably heard that Convolutional Networks work very well in practice and across a wide range of visual recognition problems. You may have also read articles and papers that claim to reach a near <em>“human-level performance”</em>. There are all kinds of caveats to that (e.g. see my G+ post on <a href="https://plus.google.com/+AndrejKarpathy/posts/dwDNcBuWTWf">Human Accuracy is not a point, it lives on a tradeoff curve</a>), but that is not the point of this post. I do think that these systems now work extremely well across many visual recognition tasks, especially ones that can be posed as simple classification.</p>
+
+<p>Yet, a second group of seemingly baffling results has emerged that brings up an apparent contradiction. I’m referring to several people who have noticed that it is possible to take an image that a state-of-the-art Convolutional Network thinks is one class (e.g. “panda”), and it is possible to change it almost imperceptibly to the human eye in such a way that the Convolutional Network suddenly classifies the image as any other class of choice (e.g. “gibbon”). We say that we <em>break</em>, or <em>fool</em> ConvNets. See the image below for an illustration:</p>
+
+<div class="imgcap">
+<img src="/assets/break/breakconv.png" />
+<div class="thecap">Figure from <a href="http://arxiv.org/abs/1412.6572">Explaining and Harnessing Adversarial Examples</a> by Goodfellow et al.</div>
+</div>
+
+<p>This topic has recently gained attention starting with <a href="http://arxiv.org/abs/1312.6199">Intriguing properties of neural networks</a> by Szegedy et al. last year. They had a very similar set of images:</p>
+
+<div class="imgcap">
+<img src="/assets/break/szegedy.jpeg" />
+<div class="thecap">
+  Take a correctly classified image (left image in both columns), and add a tiny distortion (middle) to fool the ConvNet with the resulting image (right).
+</div>
+</div>
+
+<p>And a set of very closely related results was later followed by <a href="http://arxiv.org/abs/1412.1897">Deep Neural Networks are Easily Fooled: High Confidence Predictions for Unrecognizable Images</a> by Nguyen et al. Instead of starting with correctly-classified images and fooling the ConvNet, they had many more examples of performing the same process starting from noise (and hence making the ConvNet confidently classify an incomprehensible noise pattern as some class), or evolving new funny-looking images that the ConvNet is slightly too certain about:</p>
+
+<div class="imgcap">
+<img src="/assets/break/break1.jpeg" />
+<img src="/assets/break/break2.jpeg" />
+<div class="thecap">
+  These images are classified with &gt;99.6% confidence as the shown class by a Convolutional Network.
+</div>
+</div>
+
+<p>I should make the point quickly that these results are not completely new to Computer Vision, and that some have observed the same problems even with our older features, e.g. HOG features. See <a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&amp;arnumber=6130416&amp;contentType=Conference+Publications&amp;queryText%3Dexploring+representation+capabilities+of+HOG">Exploring the Representation Capabilities of the HOG Descriptor</a> for details.</p>
+
+<p>The conclusion seems to be that we can take any arbitrary image and classify it as whatever class we want by adding tiny, imperceptible noise patterns. Worse, it was found that a reasonable fraction of fooling images <strong>generalize</strong> across different Convolutional Networks, so this isn’t some kind of fragile property of the new image or some overfitting property of the model. There’s something more general about the type of introduced noise that seems to fool many other models. In some sense, it is much more accurate to speak about <em>fooling subspaces</em> rather than <em>fooling images</em>. The latter erroneously makes them seem like tiny points in the super-high-dimensional image space, perhaps similar to rational numbers along the real numbers, when instead they are better thought of as entire intervals. Of course, this work raises security concerns because an adversary could conceivably generate a fooling image of any class on their own computer and upload it to some service with a malicious intent, with a non-zero probability of it fooling the server-side model (e.g. circumventing racy filters).</p>
+
+<blockquote>
+  <p>What is going on?</p>
+</blockquote>
+
+<p>These results are interesting and worrying, but they have also led to a good amount of confusion among laymen. The most important point of this entire post is the following:</p>
+
+<p><strong>These results are not specific to images, ConvNets, and they are also not a “flaw” in Deep Learning</strong>. A lot of these results were reported with ConvNets running on images because pictures are fun to look at and ConvNets are state-of-the-art, but in fact the core flaw extends to many other domains (e.g. speech recognition systems), and most importantly, also to simple, shallow, good old-fashioned Linear Classifiers (Softmax classifier, or Linear Support Vector Machines, etc.). This was pointed out and articulated in <a href="http://arxiv.org/abs/1412.6572">Explaining and Harnessing Adversarial Examples</a> by Goodfellow et al. We’ll carry out a few experiments very similar to the ones presented in this paper, and see that it is in fact this <em>linear</em> nature that is problematic. And because Deep Learning models use linear functions to build up the architecture, they inherit their flaw. However, Deep Learning by itself is not the cause of the issue. In fact, Deep Learning offers tangible hope for a solution, since we can use all the wiggle of composed functions to design more resistant architectures or objectives.</p>
+
+<h3 id="how-fooling-methods-work">How fooling methods work</h3>
+
+<p>ConvNets express a differentiable function from the pixel values to class scores. For example, a ConvNet might take a 227x227 image and transforms these ~100,000 numbers through a wiggly function (parameterized by several million parameters) to 1000 numbers that we interpret as the confidences for 1000 classes (e.g. the classes of ImageNet).</p>
+
+<div class="imgcap">
+<img src="/assets/break/banana.jpeg" />
+<div class="thecap">
+  This ConvNet takes the image of a banana and applies a function to it to transform it to class scores (here 4 classes are shown). The function consists of several rounds of convolutions where the filter entries are parameters, and a few matrix multiplications, where the elements of the matrices are parameters. A typical ConvNet might have ~100 million parameters.
+</div>
+</div>
+
+<p>We train a ConvNet with repeated process of sampling data, calculating the parameter gradients and performing a parameter update. That is, suppose we feed the ConvNet an image of a banana and compute the 1000 scores for the classes that the ConvNet assigns to this image. We then and ask the following question for every single parameter in the model:</p>
+
+<blockquote>
+  <p>Normal ConvNet training: “What happens to the score of the correct class when I wiggle this parameter?”</p>
+</blockquote>
+
+<p>This <em>wiggle influence</em>, of course, is just the gradient. For example, some parameter in some filter in some layer of the ConvNet might get the gradient of -3.0 computed during backpropagation. That means that increasing this parameter by a tiny amount, e.g. 0.0001, would have a <em>negative</em> influence on the banana score (due to the negative sign); In this case, we’d expect the banana score to <em>decrease</em> by approximately 0.0003. Normally we take this gradient and use it to perform a <strong>parameter update</strong>, which wiggles every parameter in the model a tiny amount in the <em>correct</em> direction, to increase the banana score. These parameter updates hence work in concert to slightly increase the score of the banana class for that one banana image (e.g. the banana score could go up from 30% to 34% or something). We then repeat this over and over on all images in the training data.</p>
+
+<p>Notice how this worked: we held the input image fixed, and we wiggled the model parameters to increase the score of whatever class we wanted (e.g. banana class). It turns out that we can easily flip this process around to create fooling images. (In practice in fact, absolutely no changes to a ConvNet code base are required.) That is, we will hold the model parameters fixed, and instead we’re computing the gradient of all pixels in the input image on any class we might desire. For example, we can ask:</p>
+
+<blockquote>
+  <p>Creating fooling images: “What happens to the score of (whatever class you want) when I wiggle this pixel?”</p>
+</blockquote>
+
+<p>We compute the gradient just as before with backpropagation, and then we can perform an <strong>image update</strong> instead of a parameter update, with the end result being that we increase the score of whatever class we want. E.g. we can take the banana image and wiggle every pixel according to the gradient of that image on the cat class. This would change the image a tiny amount, but the score of <em>cat</em> would now increase. Somewhat unintuitively, it turns out that you don’t have to change the image too much to toggle the image from being classified correctly as a banana, to being classified as anything else (e.g. cat).</p>
+
+<p>In short, to create a fooling image we start from whatever image we want (an actual image, or even a noise pattern), and then use backpropagation to compute the gradient of the image pixels on any class score, and nudge it along. We may, but do not have to, repeat the process a few times. You can interpret backpropagation in this setting as using dynamic programming to compute the most damaging local perturbation to the input. Note that this process is very efficient and takes negligible time if you have access to the parameters of the ConvNet (backprop is fast), but it is possible to do this even if you do not have access to the parameters but only to the class scores at the end. In this case, it is possible to compute the data gradient numerically, or to to use other local stochastic search strategies, etc. Note that due to the latter approach, even non-differentiable classifiers (e.g. Random Forests) are not safe (but I haven’t seen anyone empirically confirm this yet).</p>
+
+<h3 id="fooling-a-linear-classifier-on-imagenet">Fooling a Linear Classifier on ImageNet</h3>
+
+<p>As I mentioned before (and as described in more detail in <a href="http://arxiv.org/abs/1412.6572">Goodfellow et al.</a>), it is the use of linear functions that makes our models susceptible for an attack. ConvNets, of course, do not express a linear function from images to class scores; They are a complex Deep Learning model that expresses a highly non-linear function. However, the components that make up a ConvNet <em>are</em> linear: Convolution of a filter with its input is a linear operation (we are sliding a filter through the input and computing dot products - a linear operation), and matrix multiplications are also a linear function.</p>
+
+<p>So here’s a fun experiment we’ll do. Lets forget about ConvNets - they are a distracting overkill as far as the core flaw goes. Instead, lets fool a linear classifier and lets also keep with the theme of breaking models on images because they are fun to look at.</p>
+
+<p>Here is the setup:</p>
+
+<ul>
+  <li>Take 1.2 million images in ImageNet</li>
+  <li>Resize them to 64x64 (full-sized images would train longer)</li>
+  <li>use <a href="http://caffe.berkeleyvision.org/">Caffe</a> to train a Linear Classifier (e.g. Softmax). In other words we’re going straight from data to the classifier with a single fully-connected layer.</li>
+</ul>
+
+<p><em>Digression: Technical fun parts.</em> The fun part in actually doing this is that the standard AlexNetty ConvNet hyperparameters are of course completely inadequate. For example, normally you’d use weight decay of 0.0005 or so and learning rate of 0.01, and gaussian initialization drawn from a gaussian of 0.01 std. If you’ve trained linear classifiers before on this type of high-dimensional input (64x64x3 ~= 12K numbers), you’ll know that your learning rate will probably have to be much lower, the regularization much larger, and initialization of 0.01 std will probably be inadequate. Indeed, starting Caffe training with default hyperparameters gives a starting loss of about 80, which right away tells you that the initialization is completely out of whack (initial ImageNet loss should be ballpark 7.0, which is -log(1/1000)). I scaled it down to 0.0001 std for Gaussian init which gives sensible starting loss. But then the loss right away explodes which tells you that the learning rate is way too high - I had to scale it all the way down to about 1e-7. Lastly, a weight decay of 0.0005 will give almost negligible regularization loss with 12K inputs - I had to scale it up to 100 to start getting reasonably-looking weights that aren’t super-overfitted noise blobs. It’s fun being a Neural Networks practitioner.</p>
+
+<p>A linear classifier over image pixels implies that every class score is computed as a dot product between all the image pixels (stretched as a large column) and a learnable weight vector, one for each class. With input images of size 64x64x3 and 1000 ImageNet classes we therefore have 64x64x3x1000 = 12.3 million weights (beefy linear model!), and 1000 biases. Training these parameters on ImageNet with a K40 GPU takes only a few tens of minutes. We can then visualize each of the learned weights by reshaping them as images:</p>
+
+<div class="imgcap">
+<img src="/assets/break/templates.jpeg" />
+<div class="thecap">
+  Example linear classifiers for a few ImageNet classes. Each class' score is computed by taking a dot product between the visualized weights and the image. Hence, the weights can be thought of as a template: the images show what the classifier is looking for. For example, Granny Smith apples are green, so the linear classifier has positive weights in the green color channel and negative weights in blue and red channels, across all spatial positions. It is hence effectively counting the amount of green stuff in the middle. You can also see the learned <a href="http://cs.stanford.edu/people/karpathy/linear_imagenet/">templates for all imagenet classes for fun.</a>
+</div>
+</div>
+
+<p>By the way, I haven’t seen anyone report linear classification accuracy on ImageNet before, but it turns out to be about 3.0% top-1 accuracy (and about 10% top-5) on ImageNet. I haven’t done a completely exhaustive hyperparameter sweep but I did a few rounds of manual binary search.</p>
+
+<p>Now that we’ve trained the model parameters we can start to produce fooling images. This turns out to be quite trivial in the case of linear classifiers and no backpropagation is required. This is because when your score function is a dot product \(s = w^Tx\), then the gradient on the image \(x\) is simply \(\nabla_x s = w\). That is, we take an image we would like to start out with, and then if we wanted to fool the model into thinking that it is some other class (e.g. goldfish), we have to take the weights corresponding to the desired class, and add some fraction of those weights to the image:</p>
+
+<div class="imgcap">
+<img src="/assets/break/fool2.jpeg" />
+<img src="/assets/break/fool1.jpeg" />
+<img src="/assets/break/fish.jpeg" />
+<div class="thecap">
+  Fooled linear classifier: The starting image (left) is classified as a kit fox. That's incorrect, but then what can you expect from a linear classifier? However, if we add a small amount "goldfish" weights to the image (top row, middle), suddenly the classifier is convinced that it's looking at one with high confidence. We can distort it with the school bus template instead if we wanted to. Similar figures (but on the MNIST digits dataset) can be seen in Figure 2 of <a href="http://arxiv.org/abs/1412.6572">Goodfellow et al.</a>
+</div>
+</div>
+
+<p>We can also start from random noise and achieve the same effect:</p>
+
+<div class="imgcap">
+<img src="/assets/break/noise1.jpeg" style="width:30%;display:inline-block;" />
+<img src="/assets/break/noise2.jpeg" style="width:30%;display:inline-block;" />
+<div class="thecap">
+  Same process but starting with a random image.
+</div>
+</div>
+
+<p>Of course, these examples are not as impactful as the ones that use a ConvNet because the ConvNet gives state of the art performance while a linear classifier barely gets to 3% accuracy, but it illustrates the point that even with a simple, shallow function it is still possible to play around with the input in imperceptible ways and get almost arbitrary results.</p>
+
+<p><strong>Regularization</strong>. There is one subtle comment to make regarding regularization strength. In my experiments above, increasing the regularization strength gave nicer, smoother and more diffuse weights but generalized to validation data <em>worse</em> than some of my best classifiers that displayed more noisy patterns. For example, the nice and smooth templates I’ve shown only achieve 1.6% accuracy. My best model that achieves 3.0% accuracy has noisier weights (as seen in the middle column of the fooling images). Another model with very low regularization reaches 2.8% and its fooling images are virtually indistinguishable yet produce 100% confidences in the wrong class. In particular:</p>
+
+<ul>
+  <li>High regularization gives smoother templates, but at some point starts to works worse. However, it is more resistant to fooling. (The fooling images look noticeably different from their original)</li>
+  <li>Low regularization gives more noisy templates but seems to work better that all-smooth templates. It is less resistant to fooling.</li>
+</ul>
+
+<p>Intuitively, it seems that higher regularization leads to smaller weights, which means that one must change the image more dramatically to change the score by some amount. It’s not immediately obvious if and how this conclusion translates to deeper models.</p>
+
+<div class="imgcap">
+<img src="/assets/break/rapeseed.jpeg" />
+<img src="/assets/break/rapeseed2.jpeg" />
+<div class="thecap">
+  Linear classifier with lower regularization (which leads to more noisy class weights) is easier to fool (top). Higher regularization produces more diffuse filters and is harder to fool (bottom). That is, it's harder to achieve very confident wrong answers (however, with weights so small it is hard to achieve very confident correct answers too). To flip the label to a wrong class, more visually obvious perturbations are also needed. Somewhat paradoxically, the model with the noisy weights (top) works quite a bit better on validation data (2.6% vs. 1.4% accuracy).
+</div>
+</div>
+
+<h3 id="toy-example">Toy Example</h3>
+
+<p>We can understand this process in even more detail by condensing the problem to the smallest toy example that displays the problem. Suppose we train a binary logistic regression, where we define the probability of class 1 as \(P(y = 1 \mid x; w,b) = \sigma(w^Tx + b)\), where \(\sigma(z) = 1/(1+e^{-z})\) is the sigmoid function that squashes the class 1 score \(s = w^Tx+b\) into range between 0 and 1, where 0 is mapped to 0.5. This classifier hence decides that the class of the input is 1 if \(s &gt; 0\), or equivalently if the class 1 probability is more than 50% (i.e. \(\sigma(s) &gt; 0.5\)). Suppose further that we had the following setup:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1">// input</span>
+<span class="nx">w</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1">// weight vector</span>
+</code></pre>
+</div>
+
+<p>If you do the dot product, you get <code class="highlighter-rouge">-3</code>. Hence, probability of class 1 is <code class="highlighter-rouge">1/(1+e^(-(-3))) = 0.0474</code>. In other words the classifier is 95% certain that this is example is class 0. We’re now going to try to fool the classifier. That is, we want to find a tiny change to <code class="highlighter-rouge">x</code> in such a way that the score comes out much higher. Since the score is computed with a dot product (multiply corresponding elements in <code class="highlighter-rouge">x</code> and <code class="highlighter-rouge">w</code> then add it all up), with a little bit of thought it’s clear what this change should be: In every dimension where the weight is positive, we want to slightly increase the input (to get slightly more score). Conversely, in every dimension where the weight is negative, we want the input to be slightly lower (again, to get slightly more score). In other words, an adversarial <code class="highlighter-rouge">xad</code> might be:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// xad = x + 0.5w gives:</span>
+<span class="nx">xad</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Doing the dot product again we see that suddenly the score becomes 2. This is not surprising: There are 10 dimensions and we’ve tweaked the input by 0.5 in every dimension in such a way that we <em>gain</em> 0.5 in each one, adding up to a total of 5 additional score, rising it from -3 to 2. Now when we look at probability of class 1 we get <code class="highlighter-rouge">1/(1+e^(-2)) = 0.88</code>. That is, we tweaked the original <code class="highlighter-rouge">x</code> by a small amount and we improved the class 1 probability from 5% to 88%! Moreover, notice that in this case the input only had 10 dimensions, but an image might consist of many tens of thousands of dimensions, so you can afford to make tiny changes across all of them that all add up in concert in exactly the worst way to blow up the score of any class you wish.</p>
+
+<h3 id="conclusions">Conclusions</h3>
+
+<p>Several other related experiments can be found in <a href="http://arxiv.org/abs/1412.6572">Explaining and Harnessing Adversarial Examples</a> by Goodfellow et al. This paper is a required reading on this topic. It was the first to articulate and point out the linear functions flaw, and more generally argued that there is a tension between models that are easy to train (e.g. models that use linear functions) and models that resist adversarial perturbations.</p>
+
+<p>As closing words for this post, the takeaway is that ConvNets still work very well in practice. Unfortunately, it seems that their competence is relatively limited to a small region around the data manifold that contains natural-looking images and distributions, and that once we artificially push images away from this manifold by computing noise patterns with backpropagation, we stumble into parts of image space where all bets are off, and where the linear functions in the network induce large subspaces of fooling inputs.</p>
+
+<p>With wishful thinking, one might hope that ConvNets would produce all-diffuse probabilities in regions outside the training data, but there is no part in an ordinary objective (e.g. mean cross-entropy loss) that explicitly enforces this constraint. Indeed, it seems that  the class scores in these regions of space are all over the place, and worse, a straight-forward attempt to patch this up by introducing a background class and iteratively adding fooling images as a new <em>background</em> class during training are not effective in mitigating the problem.</p>
+
+<p>It seems that to fix this problem we need to change our objectives, our forward functional forms, or even the way we optimize our models. However, as far as I know we haven’t found very good candidates for either. To be continued.</p>
+
+<h4 id="further-reading">Further Reading</h4>
+
+<ul>
+  <li>Ian Goodfellow gave a talk on this work at the <a href="https://www.youtube.com/watch?v=Pq4A2mPCB0Y">RE.WORK Deep Learning Summit 2015</a></li>
+  <li>You can fool ConvNets as part of <a href="http://cs231n.github.io/assignment3/">CS231n Assignment #3 IPython Notebook</a>.</li>
+  <li><a href="http://cs.stanford.edu/people/karpathy/break_linear_classifier.ipynb">IPython Notebook</a> for this experiment. Also my <a href="http://cs.stanford.edu/people/karpathy/caffe_linear_imagenet.zip">Caffe linear classifier</a> protos if you like.</li>
+</ul>
+
+  </article>
+
+  <!-- mathjax -->
+  
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+  
+  <!-- disqus comments -->
+ 
+ <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'karpathyblog'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  
+  
+</div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrap">
+
+    <!-- <h2 class="footer-heading">Rishabh Jangir</h2> -->
+
+    <div class="footer-col-1 column">
+      <ul>
+        <li>Rishabh Jangir</li>
+        <!-- <li><a href="mailto:jangirrishabh@gmail.com">jangirrishabh@gmail.com</a></li> -->
+      </ul>
+    </div>
+
+    <div class="footer-col-2 column">
+      <ul>
+        <li>
+          <a href="https://github.com/jangirrishabh">
+            <span class="icon github">
+              <svg version="1.1" class="github-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <path fill-rule="evenodd" clip-rule="evenodd" fill="#C2C2C2" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761
+                c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32
+                c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472
+                c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037
+                C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65
+                c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261
+                c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082
+                c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129
+                c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+            <span class="username">jangirrishabh</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/RishabhJangir">
+            <span class="icon twitter">
+              <svg version="1.1" class="twitter-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <path fill="#C2C2C2" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27
+                c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767
+                c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206
+                C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271
+                c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469
+                c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+              </svg>
+            </span>
+            <span class="username">RishabhJangir</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer-col-3 column">
+      <p class="text">Excited by electrons.</p>
+    </div>
+
+  </div>
+
+</footer>
+
+
+    </body>
+</html>
