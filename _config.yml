@@ -1,0 +1,19 @@
+# Site settings
+title: Rishabh Jangir
+email: jangirrishabh@gmail.com
+description: "Excited by electrons."
+baseurl: ""
+url: "http://jangirrishabh.github.io"
+twitter_username: RishabhJangir
+github_username:  jangirrishabh
+
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+
+highlighter: rouge
+kramdown:
+  input: GFM
+  auto_ids: true
+  syntax_highlighter: rouge
