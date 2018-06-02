@@ -6,6 +6,8 @@ permalink: /
 
 <img src="assets/me.jpg" alt="Me" align="left" style="width: 35%; margin-right: 20px;"/>
 
-I'm a first year graduate student at UC Berkeley in the <a href="http://bair.berkeley.edu/">Berkeley Artificial Research Lab</a>. In my research, I work on robot learning with Professors Pieter Abbeel and Sergey Levine.
+I am a graduate researcher at the perception and manipulation group, <a href="http://www.iri.upc.edu/">Institut de Robòtica i Informàtica Industrial</a>. In my research I work on robot learning with  <a href="http://www-iri.upc.es/people/torras/"> Prof.Carme Torras</a>. 
 
-If you want to chat, shoot me an email at anair17<span class="domain">berkeley.edu</span>. Some of my projects are listed below.
+I recently graduated in engineering physics as a bachelor of technology from <a href="http://www.iitg.ac.in/">Indian Institute of Technology Guwahati</a>. 
+
+If you want to chat, shoot me an email at rjangir<span class="domain">iri.upc.edu</span>. Some of my projects are listed below.
