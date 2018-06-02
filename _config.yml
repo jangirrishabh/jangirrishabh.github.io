@@ -7,7 +7,7 @@ baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://jangirrishabh.github.io" # the base hostname & protocol for your site
 #url: "http://localhost:4000" # the base hostname & protocol for your site
 github_username:  jangirrishabh
-twitter_username: RishabhJangir
+#twitter_username: RishabhJangir
 
 
 # Build settings
