@@ -1,37 +1,119 @@
 ---
 layout: default
 ---
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript">
+function toggleDiv(divId) {
+  $('.hoverlist').each(function(index) {
+    if ($(this).attr("id") == divId) {
+      $(this).show(200);
+    }
+    else {
+      $(this).hide(600);
+    }
+  });
+}
+$( document ).ready(function() {
+  toggleDiv('all');
+});
+</script>
+
 <div class="post">
 
-  <header class="post-header">
-    <h2><u>{{ page.heading}}</u></h2>
-  </header>
+  <!-- <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+  </header> -->
 
   <article class="post-content">
-  {{ content }}
+    {{ content }}
   </article>
 
-  <!-- disqus comments -->
- {% if page.comments %}
- <div id="disqus_thread"></div>
-  <script type="text/javascript">
-      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-      var disqus_shortname = 'jangirrishabh'; // required: replace example with your forum shortname
+  <p style="clear: both;"></p>
 
-      /* * * DON'T EDIT BELOW THIS LINE * * */
-      (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-  {% endif %}
-  
+  <center>
+    <div class="postsbytags">
+      <ul>
+      {% for tag in site.tags %}
+        {% assign t = tag | first %}
+        <li><a href="javascript:toggleDiv('{{ t | downcase }}');">{{ t | downcase }}</a> {% unless forloop.last %} | {% endunless %} </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </center>
+
+  <br />
+
+  {% for tag in site.tags %}
+    {% assign t = tag | first %}
+    {% assign posts = tag | last %}
+
+  <div class="hoverlist" id="{{ t }}">
+  <h2>{{ t | downcase }}</h2>
+  <hr>
+  {% for post in posts %}
+    {% if post.tags contains t %}
+      {% if post.layout == "research" %}
+        <a href="{{ post.projectlink }}">
+        <div class="projectpreview">
+          {% if post.img %}
+            <img src="{{ site.url }}/assets/{{ post.img }}">
+          {% else %}
+            <img src="{{ site.url }}/assets/default.png">
+          {% endif %}
+          <b>{{ post.title }}</b> {{ post.rinfo }}<br />
+
+          {% if post.pdf %}
+            [<a href="{{ post.pdf }}">PDF</a>]
+          {% endif %}
+          [<a href="{{ post.projectlink }}">Website</a>]
+          <div class="date">
+            {{ post.date | date: "%b %Y" }}
+          </div>
+        </div>
+        </a>
+        <hr>
+      {% elsif post.layout == "news" %}
+        {% if post.projectlink %}
+          <a href="{{ post.projectlink }}">
+        {% endif %}
+        <div class="projectpreview">
+          {% if post.img %}
+            <img src="{{ site.url }}/assets/{{ post.img }}">
+          {% else %}
+            <img src="{{ site.url }}/assets/default.png">
+          {% endif %}
+          {{ post.title }}
+          <div class="date">
+            {{ post.date | date: "%b %Y" }}
+          </div>
+        </div>
+        </a>
+        <hr>
+      {% else %}
+        <a href="{{ post.url }}">
+        <div class="projectpreview">
+          {% if post.img %}
+            <img src="{{ site.url }}/assets/{{ post.img }}">
+          {% else %}
+            <img src="{{ site.url }}/assets/default.png">
+          {% endif %}
+          {{ post.title }}<br />
+          {% for tg in post.types %}
+            {% if tg != "all" %}
+              {{ tg | downcase }}
+            {% endif %}
+            {% unless forloop.first %}{% unless forloop.last %}/ {% endunless %}{% endunless %}
+          {% endfor %}
+          <div class="date">
+            {{ post.date | date: "%b %Y" }}
+          </div>
+        </div>
+        </a>
+        <hr>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  </div>
+  {% endfor %}
+
 </div>
-
-<!-- mathjax -->
-{% if page.mathjax %}
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-{% endif %}

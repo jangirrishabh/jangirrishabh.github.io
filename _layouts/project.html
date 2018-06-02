@@ -1,0 +1,17 @@
+---
+layout: post
+---
+<p>
+  {% if page.projectlink %}
+    <a href="{{ page.projectlink }}">Link to project</a>
+
+    {% if page.sourcelink %}
+      and <a href="{{ page.sourcelink }}">source</a>
+    {% endif %}
+
+  {% elsif page.sourcelink %}
+    <a href="{{ page.sourcelink }}">Source</a>
+  {% endif %}
+</p>
+
+{{ content }}
