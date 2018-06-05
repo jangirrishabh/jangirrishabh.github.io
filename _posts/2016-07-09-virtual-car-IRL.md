@@ -20,16 +20,16 @@ img: IRL/envo.png
 Now the question that I kept asking myself is, what is the driving force for this kind of learning, what forces the agent to learn a particular behavior in the way it is doing it. Upon learning more about RL I came across the idea of *rewards*,
 basically the agent tries to choose its actions in such a way that the rewards that is gets from that particular behavior are maximized. Now to make the agent perform different behaviors, it is the reward structure that one must modify/exploit. But assume we only have the knowledge of the behavior of the expert with us, then how do we estimate the reward structure given a particular behavior in the environment? Well, this is the very problem of **Inverse Reinforcement Learning (IRL)**, where given the optimal expert policy (actually assumed to be optimal), we wish to determine the underlying reward structure.
 
-<div class="imgcap">
+<div class="imgcap" align="middle">
 <img src="/assets/IRL/rl_des.png" width="80%">
-<div class="thecap" >
+<div class="thecap" align="middle">
 	The reinforcement learning framework.
 </div>
 </div>
 
-<div class="imgcap">
+<div class="imgcap" align="middle">
 <img src="/assets/IRL/irl_des.png" width="80%">
-<div class="thecap" >
+<div class="thecap" align="middle" >
 	The Inverse reinforcement learning framework.
 </div>
 </div>
@@ -54,9 +54,9 @@ In general, yes, they are the same thing, which means to learn from demonstratio
 
 ### Working Environment
 
-<div class="imgcap">
-<img src="/assets/IRL/envo.png" width="100%">
-<div class="thecap" >
+<div class="imgcap" align="middle">
+<img src="/assets/IRL/envo.png" width="80%">
+<div class="thecap" align="middle" >
 	The white dots represent the extent to which the agent's sensors extend.
 </div>
 </div>
@@ -300,32 +300,33 @@ And then there are files which you probably don't need to update/modify, atleast
 After around 10-15 iterations the algorithm converges in all the 4 different chosen behaviors, I obtained the following results:
 
 
+
 <div class="imgcap">
-<div style="display:inline-block">
-<iframe width="500" height="360" src="https://www.youtube.com/embed/3PUgmPuJLY4?rel=0&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+<div align="middle">
+<iframe width="500px" height="300px" src="https://www.youtube.com/embed/3PUgmPuJLY4?rel=0&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 </div>
-<div class="thecap"><b>Yellow loving agent: the objective is to go around yellow obstacles without bumping.</b> </div>
+<div class="thecap" align="middle" ><b>Yellow loving agent: the objective is to go around yellow obstacles without bumping.</b> </div>
 </div>
 
 <div class="imgcap">
-<div style="display:inline-block">
-<iframe width="500" height="360" src="https://www.youtube.com/embed/gFuGes_WNTk?rel=0&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+<div align="middle">
+<iframe width="500px" height="300px" src="https://www.youtube.com/embed/gFuGes_WNTk?rel=0&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 </div>
-<div class="thecap"><b>Brown loving agent: the objective is to go around brown obstacles without bumping.</b> </div>
-</div>
-
-<div class="imgcap">
-<div style="display:inline-block">
-<iframe width="500" height="360" src="https://www.youtube.com/embed/XXcxL6yq890?rel=0&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
-</div>
-<div class="thecap"><b>Red loving agent: the objective is to go around red obstacles without bumping. The boundary is red colored.</b> </div>
+<div class="thecap" align="middle" ><b>Brown loving agent: the objective is to go around brown obstacles without bumping.</b> </div>
 </div>
 
 <div class="imgcap">
-<div style="display:inline-block">
-<iframe width="500" height="360" src="https://www.youtube.com/embed/D64UXmFX4Yc?rel=0&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+<div align="middle">
+<iframe width="500px" height="300px" src="https://www.youtube.com/embed/XXcxL6yq890?rel=0&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 </div>
-<div class="thecap"><b>Bumping loving agent: the objective is to bump into obstacles continuously.</b> </div>
+<div class="thecap" align="middle"><b>Red loving agent: the objective is to go around red obstacles without bumping. The boundary is red colored.</b> </div>
+</div>
+
+<div class="imgcap">
+<div align="middle">
+<iframe width="500px" height="300px" src="https://www.youtube.com/embed/D64UXmFX4Yc?rel=0&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+</div>
+<div class="thecap" align="middle"><b>Bumping loving agent: the objective is to bump into obstacles continuously.</b> </div>
 </div>
 
 
