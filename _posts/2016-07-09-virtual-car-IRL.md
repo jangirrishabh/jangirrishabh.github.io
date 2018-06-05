@@ -10,6 +10,7 @@ mathjax: true
 comments: true
 sourcelink: https://github.com/jangirrishabh/toyCarIRL
 <!-- projectlink: http://findwhere.me/ -->
+permalink: 2016/07/09/virtual-car-IRL/
 img: IRL/envo.png
 ---
 
