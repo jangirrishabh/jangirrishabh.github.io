@@ -365,3 +365,4 @@ If you really want to get into IRL, I would recommend that you actually try to t
 2. Andrew Ng and Stuart Russell, 2000 - [Algorithms for Inverse Reinforcement Learning](http://ai.stanford.edu/~ang/papers/icml00-irl.pdf)
 3. Pieter Abbeel and Andrew Ng, 2004 - [Apprenticeship Learning via Inverse Reinforcement Learning](http://ai.stanford.edu/~ang/papers/icml04-apprentice.pdf)
 
+----------
