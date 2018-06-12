@@ -98,13 +98,13 @@ $( document ).ready(function() {
             <img src="{{ site.url }}/assets/default.png">
           {% endif %}
           {{ post.title }}<br />
-          <!-- {% for tg in post.types %}
+          {% for tg in post.types %}
             {% if tg != "all" %}
               {{ tg | downcase }}
             {% endif %}
             {% unless forloop.first %}{% unless forloop.last %}/ {% endunless %}{% endunless %}
-          {% endfor %} -->
-          {{ post.excerpt }}<br />
+          {% endfor %}
+          <!-- {{ post.excerpt }}<br /> -->
           <div class="date">
             {{ post.date | date: "%b %Y" }}
           </div>

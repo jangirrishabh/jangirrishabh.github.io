@@ -2,7 +2,7 @@
 layout: project
 title:  "Apprenticeship learning using Inverse Reinforcement Learning"
 date:   2016-07-09
-types: [all, vision, web-dev, python, opencv, hack, flask, android, scrapy, mongodb]
+types: [all, Inverse RL, pygame, RL , imitation learning, toy car]
 excerpt: "Learning distinct behaviors from expert demonstrations by estimating the underlying reward functions, the setting used here is that of a simple agent in a 2D world with differently coloured obstacles"
 tags: [all, projects]
 category: code

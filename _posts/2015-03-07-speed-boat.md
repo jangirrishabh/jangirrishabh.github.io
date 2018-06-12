@@ -2,9 +2,9 @@
 layout: post
 title:  "RC Speed Boat"
 date:   2015-03-07
-types: [all, vision, web-dev, python, opencv, hack, flask, android, scrapy, mongodb]
+types: [all, servo motor, deep v, esc, balsa wood, race boat]
 excerpt: "Fabricating a compact RC boat"
-tags: [all, dee-ay-wai]
+tags: [dee-ay-wai]
 category: code
 mathjax: true
 comments: true

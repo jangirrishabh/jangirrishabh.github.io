@@ -2,7 +2,7 @@
 layout: project
 title:  "Bluetooth Low Energy Networks"
 date:   2014-06-12
-types: [all, vision, web-dev, python, opencv, hack, flask, android, scrapy, mongodb]
+types: [all, ble112, buletooth 4.0, linear networks, c#, harware, embedded systems]
 excerpt: "Creating linear networks of Bluetooth 4.0 devices"
 tags: [all, projects]
 category: code

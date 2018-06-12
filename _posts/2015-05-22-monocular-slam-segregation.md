@@ -2,7 +2,7 @@
 layout: project
 title:  "Monocular SLAM supported Point Cloud Segregation of Identified objects"
 date:   2015-05-22
-types: [all, vision, web-dev, python, opencv, hack, flask, android, scrapy, mongodb]
+types: [all, vision, parrot drone, monocular slam, ptam, pcl, object detection]
 excerpt: "PTAM based point cloud segregation system for an identified object in a visual SLAM system"
 tags: [all, projects]
 category: code

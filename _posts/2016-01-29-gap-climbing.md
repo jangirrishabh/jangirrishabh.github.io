@@ -2,9 +2,9 @@
 layout: post
 title:  "Gap Climbing Robot"
 date:   2016-01-29
-types: [all, vision, web-dev, python, opencv, hack, flask, android, scrapy, mongodb]
+types: [all, fabrication, hardware, suspension system]
 excerpt: ""
-tags: [all, dee-ay-wai]
+tags: [dee-ay-wai]
 category: code
 mathjax: true
 comments: true

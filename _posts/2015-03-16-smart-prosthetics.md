@@ -2,9 +2,9 @@
 layout: post
 title:  "Smart Prosthetic leg"
 date:   2015-03-16
-types: [all, vision, web-dev, python, opencv, hack, flask, android, scrapy, mongodb]
+types: [all, prosthetics, pressure sensors, iot, biomed technologies]
 excerpt: "Prosthetic devices with smart sensors for data collection"
-tags: [all, dee-ay-wai]
+tags: [dee-ay-wai]
 category: code
 mathjax: true
 comments: true
