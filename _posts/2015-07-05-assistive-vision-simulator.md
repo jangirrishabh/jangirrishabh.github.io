@@ -3,7 +3,7 @@ layout: project
 title:  "Assistive Vision Simulator"
 date:   2015-07-05
 types: [all, vision, web-dev, python, opencv, hack, flask, android, scrapy, mongodb]
-excerpt: ""
+excerpt: "Virtual reality environment to test various modalities that enablethe blind to navigate efficiently"
 tags: [all, projects]
 category: code
 mathjax: true

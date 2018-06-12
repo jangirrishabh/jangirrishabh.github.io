@@ -3,7 +3,7 @@ layout: project
 title:  "Bluetooth Low Energy Networks"
 date:   2014-06-12
 types: [all, vision, web-dev, python, opencv, hack, flask, android, scrapy, mongodb]
-excerpt: ""
+excerpt: "Creating linear networks of Bluetooth 4.0 devices"
 tags: [all, projects]
 category: code
 mathjax: true

@@ -3,7 +3,7 @@ layout: post
 title:  "Smart Prosthetic leg"
 date:   2015-03-16
 types: [all, vision, web-dev, python, opencv, hack, flask, android, scrapy, mongodb]
-excerpt: ""
+excerpt: "Prosthetic devices with smart sensors for data collection"
 tags: [all, dee-ay-wai]
 category: code
 mathjax: true

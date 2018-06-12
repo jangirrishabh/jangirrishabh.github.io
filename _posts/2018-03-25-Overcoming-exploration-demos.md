@@ -3,7 +3,7 @@ layout: project
 title:  "Overcoming exploration from demonstrations in RL"
 date:   2018-03-25
 types: [all, vision, web-dev, python, opencv, hack, flask, android, scrapy, mongodb]
-excerpt: "Implementation of the paper "Overcoming Exploration in Reinforcement Learning with Demonstrations" Nair et al. over the HER baselines from OpenAI"
+excerpt: "Implementation of the paper Overcoming Exploration in Reinforcement Learning with Demonstrations Nair et al. over the HER baselines from OpenAI"
 tags: [all, projects]
 category: code
 mathjax: true
