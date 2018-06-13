@@ -18,6 +18,12 @@ There is a vast body of recent research that improves different aspects of RL, a
 > OpenAI recently released their Baselines implementation of Hindsight Experience Replay along with a set of [_request for robotics research_](https://blog.openai.com/ingredients-for-robotics-research/). This blog points towards my work in progress for the implementation of the paper ["Overcoming Exploration in Reinforcement Learning with Demonstrations" Nair et al.](https://arxiv.org/pdf/1709.10089.pdf) which comes under *Combine HER with recent advances in RL* 
 
 
+## Hindsight Experience Replay
+In the case of a sparse reward setting, which is usally easier to use when explaining a complex robotics task, there are not many rollouts with positive rewards. Now even in these failed rollouts where no reward was obtained, the agent can transform them into successful ones by assuming that a state it saw in the rollout was the actual goal. Usually HER is used with any off-policy RL algorithm assuming that for every state we can find a goal corresponding to this state. Think of trying to shoot a football into a goal, in the unsuccessful tries you hit the ball left to the pole and it does not get inside the goal. But now assume that the goal was originally a little left to where it now is, such that this trial would have been successful in that imaginary case! Now this imaginary case does not help you to learn how to hit the ball exactly in the goal, but you do learn how to hit the ball in a case where the goal was a little to the left, all this was possible because we shifted the goal (to an observed state in the rollout) and gave a reward for it.
+
+HER is a good technique that helps the agent to learn from sparse rewards, but trying to solve robotics tasks with such sparse rewards can be very slow and the agent might not ever reach to some states that are important because of the exploration problem. Think of the case of grasping a block with a robotic arm, the probability of taking the grasp action exactly when the arm position is perfectly above the block in a particular orientation is very low. Thus an improvement to HER would be if we could use expert demonstrations provided to the agent in a way to overcome the exploration problem.
+
+Further in this blog you will read about my implementation of the paper "Overcoming Exploration in Reinforcement Learning with Demonstrations" Nair et al. which introduces ways to use demonstartions along with HER in a sparse reward case to overcome the exploration problems and solve some complex robotics tasks!
 
 **Abstract from the original paper** - Exploration in environments with sparse rewards has been a persistent problem in reinforcement learning (RL). Many tasks are natural to specify with a sparse reward, and manually shaping a reward function can result in suboptimal performance. However, finding a non-zero reward is exponentially more difficult with increasing task horizon or action dimensionality. This puts many real-world tasks out of practical reach of RL methods. In this work, we use demonstrations to overcome the exploration problem and successfully learn to perform long-horizon, multi-step robotics tasks with continuous control such as stacking blocks with a robot arm. Our method, which builds on top of Deep Deterministic Policy Gradients and Hindsight Experience Replay, provides an order of magnitude of speedup over RL on simulated robotics tasks. It is simple to implement and makes only the additional assumption that we can collect a small set of demonstrations. Furthermore, our method is able to solve tasks not solvable by either RL or behavior cloning alone, and often ends up outperforming the demonstrator policy.
 
@@ -25,6 +31,7 @@ Major contributions of the paper include the following aspects which I have trie
 
 ## Demonstration Buffer
 First, we maintain a second replay buffer R<sub>D</sub> where we store our demonstration data in the same format as R. In each minibatch, we draw an extra N<sub>D</sub> examples from R<sub>D</sub> to use as off-policy replay data  for the update step. These examples are included in both the actor and critic update.
+
 ```python
 self.demo_batch_size = 32 #Number of demo samples
 
@@ -54,7 +61,7 @@ Second, we introduce a new loss computed only on the demonstration examples for 
 
 $$
 \begin{align}
-\L_{BC} &= \sum_{i=1}^{N_D} ||\pi(s_i|\theta_{\pi}) - a_i\\^{2}
+L_{BC} &= \sum_{i=1}^{N_D} ||\pi(s_i|\theta_{\pi}) - a_i||^{2}
 \end{align}
 $$
 
@@ -62,14 +69,14 @@ This loss is a standard loss in imitation learning, but we show that using it as
 
 $$
 \begin{align}
-\lambda_1 \delta_{\theta_{\pi}} \J - \lambda_2 \delta_{\theta_{\pi}} \L_{BC}
+\lambda_1 \nabla_{\theta_{\pi}} \J - \lambda_2 \nabla_{\theta_{\pi}} \L_{BC}
 \end{align}
 $$
 
-(Note  that  we  maximize \\(\J)\\ and  minimize \\(\L_{BC})\\ .) Using this loss directly prevents the learned policy from improving significantly beyond the demonstration policy, as the actor is always tied back to the demonstrations.
+(Note  that  we  maximize J and  minimize \\(L_{BC})\\ .) Using this loss directly prevents the learned policy from improving significantly beyond the demonstration policy, as the actor is always tied back to the demonstrations.
 
 ## Q-Filter
-We account for the possibility that demonstrations can be suboptimal by applying the behavior cloning loss only to states  where  the  critic \\(\Q(s,a))\\  determines  that  the  demonstrator action is better than the actor action. In python this looks like:
+We account for the possibility that demonstrations can be suboptimal by applying the behavior cloning loss only to states  where  the  critic \\(Q(s,a))\\  determines  that  the  demonstrator action is better than the actor action. In python this looks like:
 
 ```python
 self.lambda1 = 0.004
@@ -101,14 +108,40 @@ def _create_network(self, reuse=False):
         self.pi_loss_tf = -tf.reduce_mean(self.main.Q_pi_tf)
         self.pi_loss_tf += self.action_l2 * tf.reduce_mean(tf.square(self.main.pi_tf / self.max_u))
 ```
-Here, we first mask the samples such as to get the cloning loss only on the demonstration samples by using the `tf.boolean_mask` function. We have 3 types of losses depending on the chosen run-paramters. When using both behavior cloning loss with Q_Filter we create another mask that enables us to apply the behavior cloning loss to only those states where the critic \\(\Q(s,a))\\ determines that the demonstrator action is better than the actor action.
+Here, we first mask the samples such as to get the cloning loss only on the demonstration samples by using the `tf.boolean_mask` function. We have 3 types of losses depending on the chosen run-paramters. When using both behavior cloning loss with Q_Filter we create another mask that enables us to apply the behavior cloning loss to only those states where the critic \\(Q(s,a))\\ determines that the demonstrator action is better than the actor action.
 
+## Experimentation
+The work is in progress and most of the experimentation is being carried out on a Barret WAM simulator, that is because I have access to a Barret WAM robot through the Perception and Manipulation Lab, IRI. I have frameworks for generating demonstartions using the Inverse Kinematics and Forward Kinematics nodes developed at IRI. Also, in [this](https://github.com/jangirrishabh/HER-learn-InverseKinematics) repository I integrated the barret WAM Gazebo simulation with OpenAI gym with the help of [Gym-gazebo](https://github.com/erlerobot/gym-gazebo), thus the simulation environment in gazebo can now be used as a stanalone gym environment with all the functionalities. The plan is to first learn the initial policy on a simulation and then transfer it to the real robot, exploration in RL can lead to wild actions which are not feasible when working with a physical  platform. 
+
+![The Barret WAM robotic arm simulation in Gazebo](research/wam_single_block_reach.png)
+
+## Tasks
+The types of tasks I am considering for now are - 
+[X] Learning Inverse Kinemantics (learning how to reach a particular point inside the workspace)
+[X] Learning to grasp a block and take it to a given goal inside the workspace
+[] Learning to stack a block on top of another block
+[] Learning to stack 4 blocks on top of each other
+
+## Generating demonstrations
+Currently using a simple python script to generate demonstrations with the help of Inverse IK and Forward IK functionalities already in place for the robot I am using. Thus not all the generated demonstrations are perfect, which is good as our algorithm uses a Q-filter which accounts for all the bad demonstration data. The video below shows the demonstration generating paradigm for a 2 block stacking case, where one of the blocks is already at its goal position and the task involves stacking the second block on top of this block, the goal positions are shown in red in the rviz window next to gazebo (it is way easier to have markers in rviz than gazebo). When the block reaches its goal position the marker turns green.
+
+DEMONSTRATION VIDEO
+
+## Tasks
+The types of tasks I am considering for now are - 
+[X] Learning Inverse Kinemantics (learning how to reach a particular point inside the workspace)
+[X] Learning to grasp a block and take it to a given goal inside the workspace
+[] Learning to stack a block on top of another block
+[] Learning to stack 4 blocks on top of each other
+
+> Note: All of these tasks have a sparse reward structure i.e. 0 if the task is complete else a -1.
 
 
 ## Training details and Hyperparameters
 
 
-## Experimentation
 
-## Results
-The work is in progress and most of the experimentation is being carried out on a Barret WAM simulator, that is because I have access to a Barret WAM robot through the Perception and Manipulation Lab, IRI. The plan is to first learn the initial policy on a simulation and then transfer it to the real robot, exploration in RL can lead to wild actions which are not feasible when working with a physical  platform.
+
+
+
+## Resulting Behaviors
