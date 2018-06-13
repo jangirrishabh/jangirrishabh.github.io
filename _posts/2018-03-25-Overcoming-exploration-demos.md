@@ -29,10 +29,11 @@ Further in this blog you will read about my implementation of the paper **"Overc
 
 Major contributions of the paper include the following aspects which I have tried to implement over the HER baselines:
 
-## Demonstration Buffer used along with the exploration replay buffer
+## Demonstration Buffer 
 First, we maintain a second replay buffer R<sub>D</sub> where we store our demonstration data in the same format as R. In each minibatch, we draw an extra N<sub>D</sub> examples from R<sub>D</sub> to use as off-policy replay data  for the update step. These examples are included in both the actor and critic update.
 
 ```python
+
 self.demo_batch_size = 32 #Number of demo samples
 
 def initDemoBuffer(self, demoDataFile, update_stats=True): 
@@ -56,7 +57,7 @@ def sample_batch(self):
 ```
 
 
-## Behavior Cloning Loss applied on the actor's actions
+## Behavior Cloning Loss
 Second, we introduce a new loss computed only on the demonstration examples for training the actor-
 
 $$
@@ -77,10 +78,11 @@ $$
 
 > Please read the paper to go through the meaning of the symbols used in these equations
 
-## Q-value filter to account for imperfect demonstrations
+## Q-value filter 
 We account for the possibility that demonstrations can be suboptimal by applying the behavior cloning loss only to states  where  the  critic Q(s,a)  determines  that  the  demonstrator action is better than the actor action. In python this looks like:
 
 ```python
+
 self.lambda1 = 0.004
 self.lambda2 =  0.031
 
@@ -116,8 +118,8 @@ Here, we first mask the samples such as to get the cloning loss only on the demo
 The work is in progress and most of the experimentation is being carried out on a Barret WAM simulator, that is because I have access to a Barret WAM robot through the Perception and Manipulation Lab, IRI. I have frameworks for generating demonstartions using the Inverse Kinematics and Forward Kinematics nodes developed at IRI. Also, in [this](https://github.com/jangirrishabh/HER-learn-InverseKinematics) repository I integrated the barret WAM Gazebo simulation with OpenAI gym with the help of [Gym-gazebo](https://github.com/erlerobot/gym-gazebo), thus the simulation environment in gazebo can now be used as a stanalone gym environment with all the functionalities. The plan is to first learn the initial policy on a simulation and then transfer it to the real robot, exploration in RL can lead to wild actions which are not feasible when working with a physical  platform. 
 
 <div class="imgcap">
-<center><img src="/assets/research/wam_single_block_reach.png" width="100%"></center>
-<div class="thecap" align="middle">The Barret WAM robotic arm simulation in Gazebo.</div>
+<center><img src="/assets/research/wam_single_block_reach.png" width="60%"></center>
+<div class="thecap" align="middle"><b>The Barret WAM robotic arm simulation in Gazebo.</b></div>
 </div>
 
 ## Tasks
@@ -136,7 +138,7 @@ Currently using a simple python script to generate demonstrations with the help 
 
 <div class="imgcap">
 <div align="middle">
-<iframe width="600" height="350" src="https://www.youtube.com/embed/XHtDISfgXoY? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+<iframe width="660" height="400" src="https://www.youtube.com/embed/XHtDISfgXoY? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 </div>
 <div class="thecap" align="middle"><b>Generating demonstartions for a two block stacking task, note that the demonstrations are not perfect.</b> </div>
 </div>
@@ -152,7 +154,7 @@ The following video shows the agent's learned behavior corresponding to the task
 
 <div class="imgcap">
 <div align="middle">
-<iframe width="600" height="350" src="https://www.youtube.com/embed/XHtDISfgXoY? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+<iframe width="660" height="400" src="https://www.youtube.com/embed/XHtDISfgXoY? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 </div>
 <div class="thecap" align="middle"><b>Generating demonstartions for a two block stacking task, note that the demonstrations are not perfect.</b> </div>
 </div>
