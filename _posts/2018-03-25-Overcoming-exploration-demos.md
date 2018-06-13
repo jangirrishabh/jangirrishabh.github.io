@@ -1,6 +1,6 @@
 ---
 layout: project
-title:  "Overcoming exploration from demonstrations in RL"
+title:  "Overcoming exploration in RL from demos "
 date:   2018-03-25
 types: [all, Robotics, RL, demonstrations, Gazebo, gym, python, research, machine-learning]
 excerpt: "Implementation of the paper Overcoming Exploration in Reinforcement Learning with Demonstrations Nair et al. over the HER baselines from OpenAI"
