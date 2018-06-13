@@ -16,7 +16,7 @@ img: research/mono1.png
 <p style="text-align: justify; "> My work at the Robotics Research Lab under Dr. K. Madhava Krishna, was on the Parrot AR.Drone, a quadrocopter with a couple of monocular cameras, I successfully achieved the segregation of the point cloud of a known object from all of the point cloud data available, the object was detected by the drone itself in real time using machine learning algorithms. I worked long with Vignesh Prasad and Sarthak Sharma on Software development and Vision based localization for the AR.Drone.</p>
 
 <div class="imgcap">
-<div align="centre">
+<div align="middle">
 <iframe width="760" height="428" src="https://www.youtube.com/embed/ram95KVJxMM?rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 </div>
 <div class="thecap" align="middle"><b>The following video shows the method to get a segregated point cloud of an object.</b> </div>
