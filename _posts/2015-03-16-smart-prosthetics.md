@@ -4,7 +4,7 @@ title:  "Smart Prosthetic leg"
 date:   2015-03-16
 types: [all, prosthetics, pressure sensors, iot, biomed technologies]
 excerpt: "Prosthetic devices with smart sensors for data collection"
-tags: [dee-ay-wai]
+tags: [all, projects]
 category: code
 mathjax: true
 comments: true

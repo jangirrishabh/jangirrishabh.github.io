@@ -4,7 +4,7 @@ title:  "Monocular SLAM supported Point Cloud Segregation of Identified objects"
 date:   2015-05-22
 types: [all, vision, parrot drone, monocular slam, ptam, pcl, object detection]
 excerpt: "PTAM based point cloud segregation system for an identified object in a visual SLAM system"
-tags: [all, projects]
+tags: [all, research]
 category: code
 mathjax: true
 comments: true

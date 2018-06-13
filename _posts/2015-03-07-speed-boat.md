@@ -4,7 +4,7 @@ title:  "RC Speed Boat"
 date:   2015-03-07
 types: [all, servo motor, deep v, esc, balsa wood, race boat]
 excerpt: "Fabricating a compact RC boat"
-tags: [dee-ay-wai]
+tags: [all, projects]
 category: code
 mathjax: true
 comments: true

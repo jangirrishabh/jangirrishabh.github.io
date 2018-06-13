@@ -4,7 +4,7 @@ title:  "Gap Climbing Robot"
 date:   2016-01-29
 types: [all, fabrication, hardware, suspension system]
 excerpt: ""
-tags: [dee-ay-wai]
+tags: [all, projects]
 category: code
 mathjax: true
 comments: true
