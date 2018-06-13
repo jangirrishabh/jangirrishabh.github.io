@@ -1,6 +1,6 @@
 ---
 layout: project
-title:  "Overcoming exploration in RL from demos "
+title:  "Overcoming exploration in RL from demonstrations "
 date:   2018-03-25
 types: [all, Robotics, RL, demonstrations, Gazebo, gym, python, research, machine-learning]
 excerpt: "Implementation of the paper Overcoming Exploration in Reinforcement Learning with Demonstrations Nair et al. over the HER baselines from OpenAI"
@@ -138,7 +138,7 @@ Currently using a simple python script to generate demonstrations with the help 
 
 <div class="imgcap">
 <div align="middle">
-<iframe width="660" height="400" src="https://www.youtube.com/embed/XHtDISfgXoY? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="300" src="https://www.youtube.com/embed/XHtDISfgXoY? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 </div>
 <div class="thecap" align="middle"><b>Generating demonstartions for a two block stacking task, note that the demonstrations are not perfect.</b> </div>
 </div>
@@ -154,8 +154,8 @@ The following video shows the agent's learned behavior corresponding to the task
 
 <div class="imgcap">
 <div align="middle">
-<iframe width="660" height="400" src="https://www.youtube.com/embed/XHtDISfgXoY? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nHcWdhgskSw? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 </div>
-<div class="thecap" align="middle"><b>Generating demonstartions for a two block stacking task, note that the demonstrations are not perfect.</b> </div>
+<div class="thecap" align="middle"><b>Two block pick and place task learned bahavior after 50 epochs.</b> </div>
 </div>
 
