@@ -176,116 +176,31 @@ Let us now try to get a hang of the code. Please Find the complete code in [this
 
 + **toy_car_IRL.py** - the main file, this is where the IRL code rests. Let us have a look a the code step by step-
 
-```python
-# IRL algorith developed for the toy car obstacle avoidance problem for testing.
-import numpy as np
-import logging
-import scipy
-from playing import play #get the RL Test agent, gives out feature expectations after 2000 frames
-from nn import neural_net #construct the nn and send to playing
-from cvxopt import matrix 
-from cvxopt import solvers #convex optimization library
-from flat_game import carmunk # get the environment
-from learning import IRL_helper # get the Reinforcement learner
+{% gist 51542f27e97eac1559a00f06b757df1a %}
 
-NUM_STATES = 8 
-BEHAVIOR = 'red' # yellow/brown/red
-FRAMES = 100000 # number of RL training frames per iteration of IRL
-```
 Import dependencies and define the important parameters, change the BEHAVIOR as required. FRAMES are the number of frames you want the RL algorithm to run. 100K is okay and takes around 2 hours.
 
-```python
-class irlAgent:
-    def __init__(self, randomFE, expertFE, epsilon, num_states, num_frames, behavior):
-        self.randomPolicy = randomFE
-        self.expertPolicy = expertFE
-        self.num_states = num_states
-        self.num_frames = num_frames
-        self.behavior = behavior
-        self.epsilon = epsilon # termination when t < 0.1
-        self.randomT = np.linalg.norm(np.asarray(self.expertPolicy)-np.asarray(self.randomPolicy)) #norm of the diff in expert and random
-        self.policiesFE = {self.randomT:self.randomPolicy} # storing the policies and their respective t values in a dictionary
-        print ("Expert - Random at the Start (t) :: " , self.randomT) 
-        self.currentT = self.randomT
-        self.minimumT = self.randomT
-```
+{% gist 49b602b9a3090773d492310175bb2e3f %}
+
 Create the easy to use irlAgent class, which takes in the random and expert behaviors, and the other important parameters as shown.
 
-```python
-    def getRLAgentFE(self, W, i): #get the feature expectations of a new poliicy using RL agent
-        IRL_helper(W, self.behavior, self.num_frames, i) # train the agent and save the model in a file used below
-        saved_model = 'saved-models_'+self.behavior+str(i)+'/164-150-100-50000-'+str(self.num_frames)+'.h5' # use the saved model to get the FE
-        model = neural_net(self.num_states, [164, 150], saved_model)
-        return  play(model, W)#return feature expectations by executing the learned policy
-```
+{% gist bc17c06a07ea3b915827e89f3c13a2ae %}
+
 The getRLAgentFE function uses the IRL_helper from the reinforcement learner to train a new model and get feature expectations by playing that model for 2000 iterations. It basically returns the feature expectations for every set of weights (W) it gets.
 
-```python
-    def policyListUpdater(self, W, i):  #add the policyFE list and differences
-        tempFE = self.getRLAgentFE(W, i) # get feature expectations of a new policy respective to the input weights
-        hyperDistance = np.abs(np.dot(W, np.asarray(self.expertPolicy)-np.asarray(tempFE))) #hyperdistance = t
-        self.policiesFE[hyperDistance] = tempFE
-        return hyperDistance # t = (weights.tanspose)*(expert-newPolicy)
-```
-To update the dictionary in which we keep our obtained policies and their respective t values.  Where t = (weights.tanspose)*(expert-newPolicy).
+{% gist ce0ef99adc652c7469f1bc4303a3af41 %}
 
-```python        
-    def optimalWeightFinder(self):
-        i = 1
-        while True:
-            W = self.optimization() # optimize to find new weights in the list of policies
-            print ("weights ::", W )
-            print ("the distances  ::", self.policiesFE.keys())
-            self.currentT = self.policyListUpdater(W, i)
-            print ("Current distance (t) is:: ", self.currentT )
-            if self.currentT <= self.epsilon: # terminate if the point reached close enough
-                break
-            i += 1
-        return W
-```
+To update the dictionary in which we keep our obtained policies and their respective t values.  Where t = (weights.tanspose)x(expert-newPolicy).
+
+{% gist be55a5d44e5b1ff13dfa68cc96f6b1b1 %}
+
 The implementation of the main IRL algorithm, that is discussed above.
+{% gist 9faee18596467ee33ac5d91fd0cb675f %}
 
-```python    
-    def optimization(self): # implement the convex optimization, posed as an SVM problem
-        m = len(self.expertPolicy)
-        P = matrix(2.0*np.eye(m), tc='d') # min ||w||
-        q = matrix(np.zeros(m), tc='d')
-        policyList = [self.expertPolicy]
-        h_list = [1]
-        for i in self.policiesFE.keys():
-            policyList.append(self.policiesFE[i])
-            h_list.append(1)
-        policyMat = np.matrix(policyList)
-        policyMat[0] = -1*policyMat[0]
-        G = matrix(policyMat, tc='d')
-        h = matrix(-np.array(h_list), tc='d')
-        sol = solvers.qp(P,q,G,h)
-
-        weights = np.squeeze(np.asarray(sol['x']))
-        norm = np.linalg.norm(weights)
-        weights = weights/norm
-        return weights # return the normalized weights
-```
 The convex optimization to update the weights upon receving a new policy, basically assign +1 label to expert policy and -1 label to all the other policies and optimize for the weights under the mentioned contraints. To know more about this optimization visit [site](https://courses.csail.mit.edu/6.867/wiki/images/a/a7/Qp-cvxopt.pdf)
 
-```python
-if __name__ == '__main__':
-    logger = logging.getLogger()
-    logger.setLevel(logging.INFO)
-    randomPolicyFE = [ 7.74363107 , 4.83296402 , 6.1289194  , 0.39292849 , 2.0488831  , 0.65611318 , 6.90207523 , 2.46475348]
-    # ^the random policy feature expectations
-    expertPolicyYellowFE = [7.5366e+00,  4.6350e+00  , 7.4421e+00, 3.1817e-01,  8.3398e+00,  1.3710e-08,  1.3419e+00 ,  0.0000e+00]
-    # ^feature expectations for the "follow Yellow obstacles" behavior
-    expertPolicyRedFE = [7.9100e+00, 5.3745e-01,  5.2363e+00, 2.8652e+00,  3.3120e+00, 3.6478e-06, 3.82276074e+00  , 1.0219e-17] 
-    # ^feature expectations for the follow Red obstacles behavior
-    expertPolicyBrownFE = [5.2210e+00,  5.6980e+00,  7.7984e+00,  4.8440e-01, 2.0885e-04, 9.2215e+00, 2.9386e-01 , 4.8498e-17]
-    # ^feature expectations for the "follow Brown obstacles" behavior
-    expertPolicyBumpingFE = [  7.5313e+00, 8.2716e+00, 8.0021e+00, 2.5849e-03 ,2.4300e+01 ,9.5962e+01 ,1.5814e+01 ,1.5538e+03]
-    # ^feature expectations for the "nasty bumping" behavior
-    epsilon = 0.1
-    irlearner = irlAgent(randomPolicyFE, expertPolicyRedFE, epsilon, NUM_STATES, FRAMES, BEHAVIOR)
-    print (irlearner.optimalWeightFinder())
-```
+{% gist 30cf6c59b9915054f3cf6d278f8f8a11 %}
+
 Create an irlAgent and pass the desired parameters, select between the type of expert behavior you wish to learn the weights for and then run the optimalWeightFinder() function. Note that I have already obtained the feature expectations for red, yellow and brown behaviors.
 After the algorithm terminates, you will obtain a list of weights in 'weights-red/yellow/brown.txt', with the respective selected BEHAVIOR. Now, to select the best possible behavior from all the obtained weights, play the saved models in the saved-models_BEHAVIOR/evaluatedPolicies/ directory, the models are saved in the following format **'saved-models_'+ BEHAVIOR +'/evaluatedPolicies/'+iteration number+ '-164-150-100-50000-100000' + '.h5'**. Basically you will get different weights for different iterations, first play the models to find out the model which performs best, then note the iteration number of that model, the weights obtained corresponding to this iteration number are the weights that get you closest to the expert behavior.
 
