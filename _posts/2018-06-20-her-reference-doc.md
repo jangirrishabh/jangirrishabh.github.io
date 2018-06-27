@@ -1,13 +1,13 @@
 ---
-layout: post
+layout: project
 title:  "Reference doc for HER and Using demonstrations for RL "
-date:   2018-03-25
+date:   2018-06-20
 types: [all, Robotics, RL, demonstrations, Gazebo, gym, python, research, machine-learning]
 excerpt: "Implementation of the paper Overcoming Exploration in Reinforcement Learning with Demonstrations Nair et al. over the HER baselines from OpenAI"
-tags: []
+tags: [all]
 mathjax: true
+permalink: 2018/06/20/her-reference-doc/
 img: research/wam_single_block_reach.png
-permalink: her_reference_doc/
 ---
 
 ## Problem currently addressing
