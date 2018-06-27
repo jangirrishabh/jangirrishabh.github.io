@@ -130,12 +130,8 @@ We account for the possibility that demonstrations can be suboptimal by applying
 Here, we first mask the samples such as to get the cloning loss only on the demonstration samples by using the `tf.boolean_mask` function. We have 3 types of losses depending on the chosen run-paramters. When using both behavior cloning loss with Q_Filter we create another mask that enables us to apply the behavior cloning loss to only those states where the critic Q(s,a) determines that the demonstrator action is better than the actor action.
 
 
-## Progress
 
-
-
-
-## Tasks
+## Task wise progress
 The types of tasks I am considering for now are - 
 - [x] Learning Inverse Kinemantics (learning how to reach a particular point inside the workspace)
 - [x] Learning to grasp a block and take it to a given goal inside the workspace
@@ -147,14 +143,16 @@ The types of tasks I am considering for now are -
 
 ## Problems currently facing
 
-- Too many hyperparameters and adjustments
+- Formulating the goal condition is not easy, as the agent learns to always finds out a way to do some other weird behavior which also satifies the goal condition. for example it learns to instead grab the block from the sides rather than the top and then while placing it always disturbs the other block.
 - Simulation gets very slow after 3 hours and that causes a problem in learning (Solved!! Moved from ROS actionlib to simple services, actionlib tends to degrade in speed)
 - Training on Multiple cores not possibles yet
+- Too many hyperparameters and adjustments, no scientific framework to evaluate, have to run the whole training for >24 Hours and then make conclusions.
 
 
 ## Possible improvements
 
-- Recording better demonstrations through VR module being developed by Laia and Sergi
-- Attaching an actual gripper to the simulation robot as gripping and releasing is the main problem
+- Recording better demonstrations through VR module being developed by Laia and Sergi, as in the current demonstrations it hardly sees any poitive reward case in ~10 cases out of 100.
+- Attaching an actual gripper to the simulation robot as gripping and releasing is the main problem.
 - Training on multiple CPUs (In current Gazebo Framework it's hard to run different environments parallely)
-
+- The current goal condition is sometimes not satisfied though the behavior looks good to the human eye, so relaxing the goal condition would be valuable as then it would result in increased learning for the critic as the learning of the critic only depends on rewards received through interaction with the environment.
+- Force control on the robot simulation would be much more smooth that the current position control approach, might be a possible bottleneck.
