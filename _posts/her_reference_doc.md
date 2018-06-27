@@ -7,6 +7,7 @@ excerpt: "Implementation of the paper Overcoming Exploration in Reinforcement Le
 tags: []
 mathjax: true
 img: research/wam_single_block_reach.png
+permalink: her_reference_doc/
 ---
 
 ## Problem currently addressing
