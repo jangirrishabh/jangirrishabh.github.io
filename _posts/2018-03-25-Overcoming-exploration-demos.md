@@ -52,7 +52,7 @@ $$
 \end{align}
 $$
 
-(Note  that  we  maximize J and  minimize L<sub>BC</sub>. Using this loss directly prevents the learned policy from improving significantly beyond the demonstration policy, as the actor is always tied back to the demonstrations. 
+(Note  that  we  maximize J and  minimize L<sub>BC</sub>). Using this loss directly prevents the learned policy from improving significantly beyond the demonstration policy, as the actor is always tied back to the demonstrations. 
 
 > Please read the paper to go through the meaning of the symbols used in these equations
 

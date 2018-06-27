@@ -4,7 +4,7 @@ title:  "Reference doc for HER and Using demonstrations for RL "
 date:   2018-06-20
 types: [all, Robotics, RL, demonstrations, Gazebo, gym, python, research, machine-learning]
 excerpt: "Implementation of the paper Overcoming Exploration in Reinforcement Learning with Demonstrations Nair et al. over the HER baselines from OpenAI"
-tags: [all]
+tags: []
 mathjax: true
 permalink: 2018/06/20/her-reference-doc/
 img: research/wam_single_block_reach.png
@@ -16,11 +16,11 @@ The problem currently being addressed is of stacking a block on top of another s
 
 
 When the blocks reach their desired goal positions the markers turn green in color. Note that the goal position of the smaller block is only achieved if
-- The block is in epsilon(rougly the same size as block) distance of the goal position and,
+- The block is in epsilon (rougly the same size as block) distance of the goal position and,
 - The gripper is in a detached state, i.e. it has to release the block at this position for the task to be considered complete
 
 <div class="imgcap">
-<center><img src="/assets/research/markers.png" width="80%"></center>
+<center><img src="/assets/research/markers.png" width="60%"></center>
 <div class="thecap" align="middle"><b>The Barret WAM robotic arm task visualization in RVIZ.</b></div>
 </div>
 
@@ -42,16 +42,16 @@ self.observation_space = spaces.Dict(dict(
 ```
 
 namely:
-1. observation(length = 15) : [Gripper position in Cartesian(int x3), Gripper orientation(int x4), bool(Gripper state)**Open/Closed**, Big object position(int x3), small object position(int x3), distance b/w small object and gripper]
+- **observation**(length = 15) : [Gripper position in Cartesian(int x3), Gripper orientation(int x4), bool(Gripper state; Open/Closed), Big object position(int x3), small object position(int x3), distance b/w small object and gripper]
 
-2. achieved_goal(length = 6) : [Big object position, small object position]
+- **achieved_goal**(length = 6) : [Big object position, small object position]
 
-3. desired_goal(length = 6) : [Sampled goal position for big block, Sampled goal position for small block]
+- **desired_goal**(length = 6) : [Sampled goal position for big block, Sampled goal position for small block]
 
 ### Action space
 
 The action space has 6 continuous components, all in the range [-1, 1] :
-Action space - [Move joint 1, move joint 2, Move joint 4, Move joint 5, Move joint 6, Open/close gripper]
+- Action space - **[Move joint 1, move joint 2, Move joint 4, Move joint 5, Move joint 6, Open/close gripper]**
 
 Where joint 1, 2 and 4 are for manipulating gripper position and joints 5 and 6 are for manipulating gripper orientation, the last action is for opening and closing the magnetic gripper.
 
