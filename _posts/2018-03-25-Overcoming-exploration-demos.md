@@ -87,12 +87,12 @@ I'm solving different tasks in two different environments, Fetch robotic environ
  
 
 <div class="imgcap" align="middle">
-<center><img src="assets/research/wam_single_block_reach.png" ></center>
+<center><img src="/assets/research/wam_single_block_reach.png" ></center>
 <div class="thecap" align="middle"><b>The Barret WAM robotic arm simulation in Gazebo.</b></div>
 </div>
 
 <div class="imgcap" align="middle">
-<center><img src="assets/research/fetchEnv.png" width="48%"></center>
+<center><img src="/assets/research/fetchEnv.png" width="48%"></center>
 <div class="thecap" align="middle"><b>The Fetch Arm simulation.</b></div>
 </div>
 
@@ -164,14 +164,14 @@ Training with demonstrations helps overcome the exploration problem and achieves
 
 
 <div class="imgcap">
-<center><img src="assets/research/pickPlaceFetch.png"></center>
+<center><img src="/assets/research/pickPlaceFetch.png"></center>
 <div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task without demonstrations.</b></div>
 </div>
 
 <p></p>
 
 <div class="imgcap">
-<center><img src="assets/research/fetchPickPlaceWithDemonstrations.png"></center>
+<center><img src="/assets/research/fetchPickPlaceWithDemonstrations.png"></center>
 <div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task with the generated demonstrations.</b></div>
 </div>
 
