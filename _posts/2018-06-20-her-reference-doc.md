@@ -76,7 +76,7 @@ In DDPG we maintain 2 separate networks known as the actor and the critic networ
 
 <div class="imgcap">
 <center><img src="https://www.stevenspielberg.me/projects/images/ddpg_train.gif" width="600" height="331"></center>
-<div class="thecap" align="middle"><b>DDPG learning framework.</b></div>
+<div class="thecap" align="middle"><b>DDPG learning framework. Source: https://www.stevenspielberg.me/projects/images/ddpg_train.gif </b></div>
 </div>
 
 ## HER
