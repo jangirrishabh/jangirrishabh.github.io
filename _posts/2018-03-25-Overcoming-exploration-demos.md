@@ -92,7 +92,7 @@ I'm solving different tasks in two different environments, Fetch robotic environ
 </div>
 
 <div class="imgcap" align="middle">
-<center><img src="/assets/research/fetchEnv.png" width="48%"></center>
+<center><img src="/assets/research/fetchEnv.png" width="40%"></center>
 <div class="thecap" align="middle"><b>The Fetch Arm simulation.</b></div>
 </div>
 
@@ -164,15 +164,29 @@ Training with demonstrations helps overcome the exploration problem and achieves
 
 
 <div class="imgcap">
-<center><img src="/assets/research/pickPlaceFetch.png"></center>
-<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task without demonstrations.</b></div>
+<center><img src="/assets/research/pickPlaceFetchPart1.png"></center>
+<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task without demonstrations. Actor and Critic losses.</b></div>
 </div>
 
 <p></p>
 
 <div class="imgcap">
-<center><img src="/assets/research/fetchPickPlaceWithDemonstrations.png"></center>
-<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task with the generated demonstrations.</b></div>
+<center><img src="/assets/research/pickPlaceFetchPart2.png"></center>
+<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task without demonstrations. Cloning loss and mean Q-values.</b></div>
+</div>
+
+<p></p>
+
+<div class="imgcap">
+<center><img src="/assets/research/fetchPickPlaceWithDemonstrationsPart1.png"></center>
+<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task with the generated demonstrations. Actor and Critic losses.</b></div>
+</div>
+
+<p></p>
+
+div class="imgcap">
+<center><img src="/assets/research/fetchPickPlaceWithDemonstrationsPart2.png"></center>
+<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task with the generated demonstrations. Cloning loss and mean Q-values.</b></div>
 </div>
 
 <p></p>
