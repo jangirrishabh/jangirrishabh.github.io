@@ -92,7 +92,7 @@ I'm solving different tasks in two different environments, Fetch robotic environ
 </div>
 
 <div class="imgcap" align="middle">
-<center><img src="/assets/research/fetchEnv.png" width="40%"></center>
+<center><img src="/assets/research/fetchEnv.png" width="60%"></center>
 <div class="thecap" align="middle"><b>The Fetch Arm simulation.</b></div>
 </div>
 
@@ -184,7 +184,7 @@ Training with demonstrations helps overcome the exploration problem and achieves
 
 <p></p>
 
-div class="imgcap">
+<div class="imgcap">
 <center><img src="/assets/research/fetchPickPlaceWithDemonstrationsPart2.png"></center>
 <div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task with the generated demonstrations. Cloning loss and mean Q-values.</b></div>
 </div>
