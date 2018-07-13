@@ -19,13 +19,8 @@ There is a vast body of recent research that improves different aspects of RL, a
 
 
 ## DDPG
+In DDPG we maintain 2 separate networks known as the actor and the critic networks. The critic network is trained to estimate the Q value of a particular action given a state, Q(s,a). And the actor network is trained to output a policy that will give required behavior for the task. These action outputs from the actor are used to generate the environment interactions throughout the training with an added normal noise (10% of max action values) while selecting the actions and selecting a completely random action with a probability of 0.1.
 
-In DDPG we maintain 2 separate networks known as the actor and the critic networks. The critic network is trained to estimate the Q value of a particular action given a state, Q(s,a). And the actor network is trained to output a policy that will give required behavior for the task. These action outputs from the actor are used to generate the environment interactions throughout the training with an added normal noise (10% of max action values) while selecting the actions and selecting a completely random action with a probability of 0.1. The following image shows the DDPG learning framework.
-
-<div class="imgcap">
-<center><img src="https://www.stevenspielberg.me/projects/images/ddpg_train.gif" width="500" height="275"></center>
-<div class="thecap" align="middle"><b>DDPG learning framework. Source: https://www.stevenspielberg.me/projects/images/ddpg_train.gif </b></div>
-</div>
 
 ## Hindsight Experience Replay
 In the case of a sparse reward setting, which is usally easier to use when explaining a complex robotics task, there are not many rollouts with positive rewards. Now even in these failed rollouts where no reward was obtained, the agent can transform them into successful ones by assuming that a state it saw in the rollout was the actual goal. Usually HER is used with any off-policy RL algorithm assuming that for every state we can find a goal corresponding to this state. 
@@ -92,12 +87,12 @@ I'm solving different tasks in two different environments, Fetch robotic environ
  
 
 <div class="imgcap" align="middle">
-<center><img src="https://github.com/jangirrishabh/jangirrishabh.github.io/blob/master/assets/research/wam_single_block_reach.png" ></center>
+<center><img src="assets/research/wam_single_block_reach.png" ></center>
 <div class="thecap" align="middle"><b>The Barret WAM robotic arm simulation in Gazebo.</b></div>
 </div>
 
 <div class="imgcap" align="middle">
-<center><img src="assets/fetchEnv.png" width="48%"></center>
+<center><img src="assets/research/fetchEnv.png" width="48%"></center>
 <div class="thecap" align="middle"><b>The Fetch Arm simulation.</b></div>
 </div>
 
@@ -162,20 +157,21 @@ The following video shows the agent's learned behavior corresponding to the task
 <div class="thecap" align="middle"><b>Pick and place task learned bahavior after 1000 epochs on a Fetch Arm robotic simulation.</b> </div>
 </div>
 
+<p></p>
 
 Training with demonstrations helps overcome the exploration problem and achieves a faster and better convergence. The following graphs contrast the difference between training with and without demonstration data, I report the Actor and the Critic network losses vs Epoch, the mean Q values vs Epoch and the Cloning loss vs epoch, note that for the graph without demonstrations the Cloning loss is just a random plot and does not signify anything:
 
 
 
 <div class="imgcap">
-<center><img src="assets/pickPlaceFetch.png"></center>
+<center><img src="assets/research/pickPlaceFetch.png"></center>
 <div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task without demonstrations.</b></div>
 </div>
 
 <p></p>
 
 <div class="imgcap">
-<center><img src="assets/fetchPickPlaceWithDemonstrations.png"></center>
+<center><img src="assets/research/fetchPickPlaceWithDemonstrations.png"></center>
 <div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task with the generated demonstrations.</b></div>
 </div>
 
