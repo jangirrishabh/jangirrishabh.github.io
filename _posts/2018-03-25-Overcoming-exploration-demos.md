@@ -190,3 +190,5 @@ Training with demonstrations helps overcome the exploration problem and achieves
 </div>
 
 <p></p>
+
+Clearly, the use of demonstrations enables a faster and better convergence in the Q values as apparent from the graphs. Also the Critic and Actor losses decrease sharply and much lower values. Future work in this direction would include solving much more complex tasks and impriving the algorithm further to enable a better and efficient usage of demonstrations data.
