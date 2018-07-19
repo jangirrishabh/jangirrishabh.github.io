@@ -88,16 +88,6 @@ I'm solving different tasks in two different environments:
 * Barret WAM simulation in Gazebo integrated with gym.
 
 The learning algorithm is agnostic of the simulation environment used. With the help of [Gym-gazebo](https://github.com/erlerobot/gym-gazebo), the simulation environment in gazebo can be used as a stanalone gym environment with all the gym functionalities.
- 
-<!-- <div class="imgcap" align="middle">
-<center><img src="/assets/research/wam_single_block_reach.png" ></center>
-<div class="thecap" align="middle"><b>The Barret WAM robotic arm simulation in Gazebo.</b></div>
-</div>
-
-<div class="imgcap" align="middle">
-<center><img src="/assets/research/fetchEnv.png" width="60%"></center>
-<div class="thecap" align="middle"><b>The Fetch Arm simulation.</b></div>
-</div> -->
 
 ## Tasks
 The type of tasks I am considering for now (in Barret WAM) are - 
@@ -158,7 +148,7 @@ The following video shows the agent's learned behavior corresponding to the task
 Training with demonstrations helps overcome the exploration problem and achieves a faster and better convergence. The following graphs contrast the difference between training with and without demonstration data, I report the the mean Q values vs Epoch and the Success Rate vs Epoch:
 
 <div class="imgcap" align="middle">
-<center><img src="assets/research/fetchPickAndPlaceContrast.png"></center>
+<center><img src="/assets/research/fetchPickAndPlaceContrast.png"></center>
 <div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task constrasting between training with and without demonstration data.</b></div>
 </div>
 
