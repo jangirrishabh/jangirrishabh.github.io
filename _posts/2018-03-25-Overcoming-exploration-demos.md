@@ -83,10 +83,13 @@ Here, we first mask the samples such as to get the cloning loss only on the demo
 In [this](https://github.com/jangirrishabh/HER-learn-InverseKinematics) repository I integrated the barret WAM Gazebo simulation with OpenAI gym with the help of [Gym-gazebo](https://github.com/erlerobot/gym-gazebo), thus the simulation environment in gazebo can now be used as a stanalone gym environment with all the functionalities. The plan is to first learn the initial policy on a simulation and then transfer it to the real robot, exploration in RL can lead to wild actions which are not feasible when working with a physical  platform. But currently the whole simulation environment for Barret WAM arm developed at Perception and Manipulation group, IRI is not available in open source, thus I will be reporting the results on Fetch Robotics environments available from OpenAI gym.
 
 ### Environments
-I'm solving different tasks in two different environments, Fetch robotic environments from OpenAI gym, and Barret WAM simulation in Gazebo integrated with gym. The learning algorithm is agnostic of the simulation environment used. With the help of [Gym-gazebo](https://github.com/erlerobot/gym-gazebo) the simulation environment in gazebo can be used as a stanalone gym environment with all the gym functionalities.
- 
+I'm solving different tasks in two different environments:
+* Fetch robotic environments from OpenAI gym
+* Barret WAM simulation in Gazebo integrated with gym.
 
-<div class="imgcap" align="middle">
+The learning algorithm is agnostic of the simulation environment used. With the help of [Gym-gazebo](https://github.com/erlerobot/gym-gazebo), the simulation environment in gazebo can be used as a stanalone gym environment with all the gym functionalities.
+ 
+<!-- <div class="imgcap" align="middle">
 <center><img src="/assets/research/wam_single_block_reach.png" ></center>
 <div class="thecap" align="middle"><b>The Barret WAM robotic arm simulation in Gazebo.</b></div>
 </div>
@@ -94,7 +97,7 @@ I'm solving different tasks in two different environments, Fetch robotic environ
 <div class="imgcap" align="middle">
 <center><img src="/assets/research/fetchEnv.png" width="60%"></center>
 <div class="thecap" align="middle"><b>The Fetch Arm simulation.</b></div>
-</div>
+</div> -->
 
 ## Tasks
 The type of tasks I am considering for now (in Barret WAM) are - 
@@ -115,23 +118,19 @@ For the Fetch robotic environments -
 Currently I am using simple python scripts to generate demonstrations with the help of Inverse IK and Forward IK functionalities already in place for the robot I am using. Thus not all the generated demonstrations are perfect, which is good as our algorithm uses a Q-filter which accounts for all the bad demonstration data. The video below shows the demonstration generating paradigm for one block stacking case, where one of the blocks is already at its goal position and the task involves stacking the second block on top of this block, the goal positions are shown in red in the rviz window next to gazebo (it is way easier to have markers in rviz than gazebo). When the block reaches its goal position the marker turns green.
 
 
-
-<div class="imgcap">
-<div align="middle">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/S2h5S0861DA? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
-</div>
-<div class="thecap" align="middle"><b>Generating demonstartions for a single block stacking task in Barret WAM simulation environment.</b> </div>
+<div class="imgcap" align="middle">
+<center><img src="https://media.giphy.com/media/20yAHr47HjwBr7nAfh/giphy.gif" ></center>
+<div class="thecap" align="middle"><b>Generating demonstartions for a single block stacking task in Barret WAM simulation environment</b></div>
 </div>
 
+<p></p>
 
-The demonstrations are generated in a similar manner in for the Fetch Pick Place environment, the following video demonstrates the data generation-
+<div class="imgcap" align="middle">
+<center><img src="https://media.giphy.com/media/5vUTRi2T2OFgVEttpC/giphy.gif"></center>
+<div class="thecap" align="middle"><b>Generating demonstartions for the Pick and Place task in Fetch robotic environment.</b></div>
+</div>
 
-<div class="imgcap">
-<div align="middle">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/pXb2q6VopsE? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
-</div>
-<div class="thecap" align="middle"><b>Generating demonstartions for the Pick and Place task in Fetch robotic environment.</b> </div>
-</div>
+<p></p>
 
 
 ## Training details and Hyperparameters
@@ -141,54 +140,28 @@ We train the robot with the above shown demonstrations in the buffer. We sample 
 ## Resulting Behaviors
 The following video shows the agent's learned behavior corresponding to the task of stacking one block on top of the other. As you can see it learns to pick up the block, reach to a perfect position to drop the block but still does not learn to take the action that results in dropping the block to the goal. As I said this is a work in progress and I am still working towards improving the performace of the agent in this task. For the other easier tasks of reaching a goal position and picking up the block it shows perfect performance, and I have not reported those results as they are just a subset of the current problem which I am trying to solve.
 
-<div class="imgcap">
-<div align="middle">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LWiBlc9H0ko? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
-</div>
-<div class="thecap" align="middle"><b>Single block stack task learned bahavior after 1000 epochs on a Barret WAM environment simulation.</b> </div>
-</div>
 
-<p></p>
-
-<div class="imgcap">
-<div align="middle">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/L83qshBkNnU? rel=0&amp;controls=1&amp;autoplay=0&amp;loop=1&amp;rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
-</div>
-<div class="thecap" align="middle"><b>Pick and place task learned bahavior after 1000 epochs on a Fetch Arm robotic simulation.</b> </div>
+<div class="imgcap" align="middle">
+<center><img src="https://media.giphy.com/media/5QIbWA5nYNlGPIG5kN/giphy.gif" ></center>
+<div class="thecap" align="middle"><b>Single block stack task learned bahavior after 1000 epochs on a Barret WAM environment simulation.</b></div>
 </div>
 
 <p></p>
 
-Training with demonstrations helps overcome the exploration problem and achieves a faster and better convergence. The following graphs contrast the difference between training with and without demonstration data, I report the Actor and the Critic network losses vs Epoch, the mean Q values vs Epoch and the Cloning loss vs epoch, note that for the graph without demonstrations the Cloning loss is just a random plot and does not signify anything:
-
-
-
-<div class="imgcap">
-<center><img src="/assets/research/pickPlaceFetchPart1.png"></center>
-<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task without demonstrations. Actor and Critic losses.</b></div>
+<div class="imgcap" align="middle">
+<center><img src="https://media.giphy.com/media/pjvPYgOj4tLsN2KDEq/giphy.gif"></center>
+<div class="thecap" align="middle"><b>Pick and place task learned bahavior after 1000 epochs on a Fetch Arm robotic simulation.</b></div>
 </div>
 
 <p></p>
 
-<div class="imgcap">
-<center><img src="/assets/research/pickPlaceFetchPart2.png"></center>
-<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task without demonstrations. Cloning loss and mean Q-values.</b></div>
+Training with demonstrations helps overcome the exploration problem and achieves a faster and better convergence. The following graphs contrast the difference between training with and without demonstration data, I report the the mean Q values vs Epoch and the Success Rate vs Epoch:
+
+<div class="imgcap" align="middle">
+<center><img src="assets/research/fetchPickAndPlaceContrast.png"></center>
+<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task constrasting between training with and without demonstration data.</b></div>
 </div>
 
 <p></p>
 
-<div class="imgcap">
-<center><img src="/assets/research/fetchPickPlaceWithDemonstrationsPart1.png"></center>
-<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task with the generated demonstrations. Actor and Critic losses.</b></div>
-</div>
-
-<p></p>
-
-<div class="imgcap">
-<center><img src="/assets/research/fetchPickPlaceWithDemonstrationsPart2.png"></center>
-<div class="thecap" align="middle"><b>Training results for Fetch Pick and Place task with the generated demonstrations. Cloning loss and mean Q-values.</b></div>
-</div>
-
-<p></p>
-
-Clearly, the use of demonstrations enables a faster and better convergence in the Q values as apparent from the graphs. Also the Critic and Actor losses decrease sharply and much lower values. Future work in this direction would include solving much more complex tasks and impriving the algorithm further to enable a better and efficient usage of demonstrations data.
+Clearly, the use of demonstrations enables a faster and better convergence in the Q values as apparent from the graphs. Also the success condition is achieved much faster reaching upto 100% performance just around the 400th epoch whereas in the case without demonstrations even after 1000 iterations the agent hardly reaches 70% success rate. Future work in this direction would include solving much more complex tasks and impriving the algorithm further to enable a better and efficient usage of demonstrations data.
