@@ -9,6 +9,5 @@ tags: [all, research]
 category: code
 comments: true
 img: research/dynamic/cloth.png
-video: https://www.youtube.com/watch?v=K34x_IixXwA
-projectlink:
+projectlink: https://www.youtube.com/watch?v=K34x_IixXwA
 ---
