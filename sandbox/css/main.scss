@@ -1,0 +1,124 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+
+
+// Our variables
+$base-font-family: Helvetica, Arial, sans-serif;
+$base-font-size:   16px;
+$small-font-size:  $base-font-size * 0.875;
+$base-line-height: 1.5;
+
+$spacing-unit:     30px;
+
+$text-color:       #111;
+$background-color: #fdfdfd;
+$brand-color:      #2a7ae2;
+
+$grey-color:       #828282;
+$grey-color-light: lighten($grey-color, 40%);
+$grey-color-dark:  darken($grey-color, 25%);
+
+// Width of the content area
+$content-width:    800px;
+
+$on-palm:          600px;
+$on-laptop:        800px;
+
+$pp-img: 90px;
+$pp-height: 100px;
+
+// Using media queries with like this:
+// @include media-query($on-palm) {
+//     .wrapper {
+//         padding-right: $spacing-unit / 2;
+//         padding-left: $spacing-unit / 2;
+//     }
+// }
+@mixin media-query($device) {
+    @media screen and (max-width: $device) {
+        @content;
+    }
+}
+
+
+
+// Import partials from `sass_dir` (defaults to `_sass`)
+@import
+        "base",
+        "layout",
+        "syntax-highlighting"
+;
+
+.hoverlist {
+  display: none;
+  text-decoration:none;
+
+  h2 {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .projectpreview {
+    position:relative;
+    min-height: $pp-height;
+    text-decoration: none;
+    color: #1756a9;
+    display: block;
+
+    -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+  }
+
+  .projectpreview:hover {
+    font-size: $base-font-size;
+    text-decoration: none;
+    background: #f0f0f0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  img {
+    float: left;
+    height: $pp-img;
+    width: $pp-img;
+    padding: 5px;
+    margin-right: 5px;
+  }
+}
+
+.postsbytags {
+  ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+  }
+
+  li {
+      display: inline;
+  }
+}
+
+hr {
+  border: 0; height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.domain::before {
+    content: "\0040";    /* Unicode character for @ symbol */
+}
+
+.date {
+  position:absolute;
+  bottom:0;
+  right:0;
+}

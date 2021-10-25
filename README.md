@@ -1,8 +1,2 @@
-jangirrishabh.github.io
-=================
-
-Personal pages
-
-To run: source a Python 2 environment and run "bundle exec jekyll serve"
-
-Website source code credits - https://github.com/anair13/anair13.github.io
+# jangirrishabh.github.io
+Repository for [my personal site](https://jangirrishabh.github.io/), built with plain html. This project was originally designed and developed by Nicklas Hansen, from nicklashansen.github.io. 

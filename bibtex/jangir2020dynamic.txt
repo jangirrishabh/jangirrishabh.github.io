@@ -1,0 +1,9 @@
+@INPROCEEDINGS{9196659,
+  author={Jangir, Rishabh and Alenyà, Guillem and Torras, Carme},
+  booktitle={2020 IEEE International Conference on Robotics and Automation (ICRA)}, 
+  title={Dynamic Cloth Manipulation with Deep Reinforcement Learning}, 
+  year={2020},
+  volume={},
+  number={},
+  pages={4630-4636},
+  doi={10.1109/ICRA40945.2020.9196659}}

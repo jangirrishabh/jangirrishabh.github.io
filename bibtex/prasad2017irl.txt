@@ -1,0 +1,13 @@
+@inproceedings{10.5555/3091125.3091408,
+author = {Prasad, Vignesh and Jangir, Rishabh and Balaraman, Ravindran and Krishna, K. Madhava},
+title = {Data Driven Strategies for Active Monocular SLAM Using Inverse Reinforcement Learning},
+year = {2017},
+publisher = {International Foundation for Autonomous Agents and Multiagent Systems},
+address = {Richland, SC},
+booktitle = {Proceedings of the 16th Conference on Autonomous Agents and MultiAgent Systems},
+pages = {1697–1699},
+numpages = {3},
+keywords = {learning from demonstration, active monocular slam, inverse reinforcement learning, robot navigation},
+location = {S\~{a}o Paulo, Brazil},
+series = {AAMAS '17}
+}
