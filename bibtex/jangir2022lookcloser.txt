@@ -1,4 +1,4 @@
-@ARTICLE{jangir2022lookcloser,
+@ARTICLE{jangir2022look,
   author={Jangir, Rishabh and Hansen, Nicklas and Ghosal, Sambaran and Jain, Mohit and Wang, Xiaolong},
   journal={IEEE Robotics and Automation Letters}, 
   title={Look Closer: Bridging Egocentric and Third-Person Views with Transformers for Robotic Manipulation}, 
